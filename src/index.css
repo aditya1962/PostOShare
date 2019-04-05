@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/*Common styles */
+.postDiv
+{
+	padding:1%;
+	margin:4% 25% 4% 25%;
+	width:50%;
+}
+.flexDiv
+{
+	display:flex;
+}
+.avatar
+{
+	height:70%;
+}
+p
+{
+	padding:0px;
+	margin:0px;
+}
+
+/*Styles for post */
+.post
+{
+	margin:2% 0%;
+}
+
+/*Styles for comments */
+
+.userLink
+{
+	text-align:left;
+	flex:50%;
+}
+.datetime
+{
+	text-align:right;
+	flex:50%;
+}
+.postinformation
+{
+	padding:0% 0% 0% 1%;
+	width:100%;
+}
+.comments
+{
+	width:100%;	
+}
+.comment
+{
+	padding:1%;
+}
+.commentText
+{
+	padding:1% 0%;
+}
