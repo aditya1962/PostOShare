@@ -9,32 +9,37 @@ class App extends Component {
   {
   	super();
   	this.state = {
-  		posts : ''
+  		posts : []
   	}
   }
+  
   componentDidMount()
   {
-  	const root = firebase.database().ref().child('comment');
-  	console.log(root);
-  	const comment = root.child('comment2');
-  	root.once('value',function(snapshot){
+ 	const root = firebase.database().ref().child('posts');
+  	const comment = root.child('post1');
+ 	let data = this;
+ 	root.once('value',function(snapshot){
   		snapshot.forEach(function(child){
-  			console.log(child.val());
-  			/*
-		  	this.setState({
-		  		posts: this.state.posts+child.val()
-		  		
-		  	});
-*/
+        data.state.posts.push(child.val())
+		  	data.setState((state)=>({
+		  		posts:data.state.posts
+		  	}));
 		});
-  	console.log(snapshot.val());
   });
   }
 
   render() {
     return (
       <div className="App">
-      	<div> {this.state.posts.datetime} </div>
+        {
+          console.log(this.state.posts)
+          /*
+         this.state.posts.map((data,index)=>{
+          return data.datetime
+         })
+        */
+        } 
+      	{this.state.posts.datetime}
         <Post />
         <Post />
       </div>
