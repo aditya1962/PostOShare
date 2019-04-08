@@ -2,33 +2,40 @@ import React from 'react';
 import Avatar from './Avatar.js';
 import UserInfo from './UserInfo.js';
 import '../index.css';
-import User from '../Data/user.json';
+import App from '../App.js';
 
 class Post extends React.Component
 {
 	render()
 	{
 		return(
-			<div className="card postDiv">
-			<div className = "card-body">
-			<div className="post">
-			<Avatar imageUrl={User.postImageUrl}/>
-			</div>
-			<div className="comments">
-			{User.map((userDetail,index) => 
-						{
-							return <div className="comment">
-										<div className="flexDiv">
-										<Avatar imageUrl={userDetail.imageURL}/>
-										<UserInfo userUrl = {userDetail.userURL} userName = {userDetail.username}
-										comment={userDetail.comment} date={userDetail.datetime}/>
-										</div>
-									</div>
-						}
+		
+			<div>
+			{
+				this.props.data.map((post,index) =>
+					<div className="card postDiv">
+						<div className = "card-body">
+							<div className="post">
+								 <div key = {post.postContent.id} className="comment">
+				                    <div className="flexDiv">
+					                    <Avatar imageUrl={post.postContent.imageURL}/>
+					                    <UserInfo userUrl = {post.postContent.userURL} userName = {post.postContent.username}
+					                    comment={post.postContent.comment} date={post.postContent.datetime}/>
+				                    </div>
+				                  </div>
+				                  <div className="comments">
+									 <div className="flexDiv">
+						                    <Avatar imageUrl={post.postContent.imageURL}/>
+						                    <UserInfo userUrl = {post.postContent.userURL} userName = {post.postContent.username}
+						                    comment={post.postContent.comment} date={post.postContent.datetime}/>
+						              </div>
+						          </div>
+							</div>
+
+						</div>
+					</div>		
 					)
-				}
-			</div>
-			</div>
+		}
 			</div>
 			);
 	}
