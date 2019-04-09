@@ -14,7 +14,6 @@ class UserInfo extends React.Component
 					<a className="userLink" href="#" rel="noopener noreferer" target="_blank"><strong>{this.props.userUrl} </strong></a>
 					<DateComment date={this.props.date}/>
 				</div>
-				<Comment comment={this.props.comment}/>
 			</div>
 			);
 	}

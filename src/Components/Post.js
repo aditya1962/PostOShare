@@ -80,9 +80,9 @@ class Post extends React.Component
       })
   }
 
+
 	render()
 	{
-		
 		return(
 		
 			<div>
@@ -94,12 +94,13 @@ class Post extends React.Component
 								 <div key = {post.postContent.id} className="comment">
 				                    <div className="flexDiv">
 					                    <Avatar imageUrl={post.postContent.imageURL}/>
-					                    <UserInfo userUrl = {post.postContent.userURL} userName = {post.postContent.username}
-					                    comment={post.postContent.comment} date={post.postContent.datetime}/>
+        <UserInfo userUrl = {post.postContent.userURL} userName = {post.postContent.username}
+          comment={post.postContent.comment} date={post.postContent.datetime}/>
+
 				                    </div>
 				                  </div>
 				                  <div className="comments">
-									 <Comment postid = {post.postContent.postid} />
+									         <Comment postid={post.postContent.postid} />
 						          </div>
 							</div>
 
