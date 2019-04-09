@@ -1,3 +1,3 @@
-# reactAppNew
+# Social Media Posts
 
-Adding repositories
+This project is about building Social media posts for a given user
