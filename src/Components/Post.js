@@ -93,15 +93,22 @@ class Post extends React.Component
 							<div className="post">
 								 <div key = {post.postContent.id} className="comment">
 				                    <div className="flexDiv">
-					                    <Avatar imageUrl={post.postContent.imageURL}/>
-        <UserInfo userUrl = {post.postContent.userURL} userName = {post.postContent.username}
-          comment={post.postContent.comment} date={post.postContent.datetime}/>
-
+					                    <Avatar user={post.postContent.username}/>
+                              <UserInfo userUrl = {post.postContent.userURL} userName = {post.postContent.username}
+                                date={post.postContent.datetime}/>
 				                    </div>
+                            <div className = "description">
+                              <p> {post.postContent.pstDescription} </p>
+                            </div>
 				                  </div>
+                          <div className="commentSection">
+                          <div className="writecomment formgroup">
+                            <textarea className="form-control" rows="3">Write Something </textarea>
+                          </div>
 				                  <div className="comments">
 									         <Comment postid={post.postContent.postid} />
 						          </div>
+                      </div>
 							</div>
 
 						</div>

@@ -12,6 +12,7 @@ body {
 }
 .flexDiv
 {
+	margin:2% 0% 2% 0%;
 	display:flex;
 }
 .avatar
@@ -51,6 +52,7 @@ p
 {
 	width:100%;	
 	margin:4%;
+	padding:0% 4% 0% 0%;
 }
 .comment
 {
@@ -59,4 +61,9 @@ p
 .commentText
 {
 	padding:1% 0%;
+}
+.commentSection
+{
+	padding:1%;
+	background-color:#E8EAF1;
 }

@@ -20,9 +20,9 @@ class Comment extends React.Component
 		var postid = this.props.postid;
 		
 		const db = firebase.database().ref();
-		const comment = db.child("comment").orderByChild("postid").equalTo("1");
+		const comment = db.child("comment").orderByChild("postid").equalTo(postid);
 		let data = this;
-		comment.once('value',snap=>
+		comment.on('value',snap=>
 		{
 			data.state.comments.push(snap.val())
 			data.setState((state)=>(
@@ -36,12 +36,26 @@ class Comment extends React.Component
 	{
 		var commentsArr = Array.from(new Set(Object.values(Object(this.state.comments[0]))));
 		return(
-       			commentsArr.map((comment,index)=>
-       				<div className="flexDiv">
-		       			<Avatar/>
-		        		<UserInfo comment={comment.description} date={comment.datetime}/>
-					</div>
+			<div>
+				<div> <p> {commentsArr.length} comment(s) </p> </div>
+				<div>
+				{
+       				commentsArr.map((comment,index)=>
+       				<div className="comment">
+	       				<div className="flexDiv">
+
+	       					<Avatar user={comment.username}/>
+			        		<UserInfo userUrl = {comment.userURL} userName = {comment.username}
+                                date={comment.datetime}/>
+						</div>
+						<div className = "description">
+	                              <p> {comment.description} </p>
+	                    </div>
+	                </div>  
        			)
+       		}
+       			</div>
+       		</div>
 			);
 	}
 }
