@@ -14,3 +14,15 @@
 		 	{
 		 		imageURL:snap.val().user.imageURL
 		 	}));
+
+      const user=firebase.database().ref().child("users").orderByChild("username").equalTo(username);
+    let url = this;
+    user.on('value',snap=>
+    {
+      var userURL =  Object.values(Object(snap.val()))[0].userURL;
+      
+      url.setState((state)=>(
+      {
+        userURL:url.state.userURL
+      }));
+    })

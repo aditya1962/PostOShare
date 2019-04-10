@@ -7,12 +7,17 @@ body {
 .postDiv
 {
 	padding:1%;
-	margin:4% 25% 4% 25%;
-	width:50%;
+	margin:0% 12% 4% 5%;
+	flex:60%;
+}
+.user
+{
+	flex:100%;
+	margin:0% 0% 0% 1%;
 }
 .flexDiv
 {
-	margin:2% 0% 2% 0%;
+	margin:0% 0% 2% 0%;
 	display:flex;
 }
 .avatar
@@ -25,10 +30,44 @@ p
 	margin:0px;
 }
 
+/* Styles for user navigation row */
+
+.userNavigation
+{
+	background-color:#E8EAF1;
+	padding:1%;
+}
+.logoPic
+{
+	width:50%;
+	padding:0% 0% 0% 2%;
+	flex:30%;
+}
+.logo
+{
+	width:30%;
+}
+.profile
+{
+	flex:12%;
+	width:10%;
+	text-align:right;
+	background-color:transparent;
+	margin:0% 7% 0% 80%;
+}
+.profile img
+{
+	width:125%;
+}
+
 /*Styles for post */
 .post
 {
 	margin:2% 0%;
+}
+.description p
+{
+	text-align:justify;
 }
 
 /*Styles for comments */
@@ -62,7 +101,10 @@ p
 {
 	padding:1% 0%;
 }
-
+.commentNumber
+{
+	text-align:right;
+}
 .commentSection
 {
 	padding:1%;

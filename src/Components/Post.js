@@ -94,6 +94,7 @@ class Post extends React.Component
          <div key = {post.postContent.id} className="comment">
          <div className="flexDiv">
          <Avatar user={post.postContent.username}/>
+         {console.log(post.postContent.username)}
          <UserInfo userUrl = {post.postContent.userURL} userName = {post.postContent.username}
          date={post.postContent.datetime}/>
          </div>

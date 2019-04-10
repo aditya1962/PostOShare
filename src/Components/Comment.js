@@ -57,7 +57,7 @@ class Comment extends React.Component
 		const comment = {[commentKey]:{
 			"datetime":dateString,
 			"description":value,
-			"postid":1,
+			"postid":this.props.postid,
 			"username":"name1"
 		}}
 		return comment;
@@ -101,7 +101,9 @@ class Comment extends React.Component
 		var commentsArr = Array.from(new Set(Object.values(Object(this.state.comments[0]))));
 		return(
 			<div>
-				<div> <p> {commentsArr.length} comment(s) </p> </div>
+				<div className="flexDiv"> 
+					<p className="commentNumber"> {commentsArr.length} comment(s) </p>
+				</div>
 				<form onSubmit = {this.handleSubmit}>
 					<div className="writecomment formgroup">
 	                    <textarea value={this.state.value} className="form-control" rows="7" 
