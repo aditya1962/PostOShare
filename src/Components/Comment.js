@@ -1,19 +1,24 @@
 import React from 'react';
 import Post from './Post'
 import '../index.css';
-import Avatar from './Avatar.js';
-import UserInfo from './UserInfo.js';
+import Avatar from './Avatar';
+import UserInfo from './UserInfo';
 import * as firebase from 'firebase';
+import {getDateComment,getDateCommentString} from '../getDate.js';
+
 
 class Comment extends React.Component
 {
 
-	constructor()
+	constructor(props)
 	{
-		super();
+		super(props);
 		this.state={
-			comments : []
+			comments : [],
+			value:""
 		}
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	componentDidMount()
 	{
@@ -32,12 +37,78 @@ class Comment extends React.Component
 		});
 
 	}
+	handleChange(event)
+	{
+		let value = this;
+		value.setState(
+		{
+			value:event.target.value
+		}
+			)
+	}
+	newComment(value)
+	{
+		var commentDate= new Date();
+		var date = commentDate.getFullYear().toString()+(commentDate.getMonth()+1).toString()+commentDate.getDate().toString()+
+		commentDate.getHours().toString()+commentDate.getMinutes().toString()+commentDate.getSeconds().toString();
+		var dateString = commentDate.getFullYear()+"/"+(commentDate.getMonth()+1)+"/"+commentDate.getDate()+" "
+		+commentDate.getHours()+":"+commentDate.getMinutes()+":"+commentDate.getSeconds();
+		var commentKey = "comment"+date.toString();
+		const comment = {[commentKey]:{
+			"datetime":dateString,
+			"description":value,
+			"postid":1,
+			"username":"name1"
+		}}
+		return comment;
+
+	}
+	writeData(comment)
+	{
+		var key = Object.keys(comment)[0];
+		var values = Object.values(comment)[0];
+		var datetime = values["datetime"];
+		var description = values["description"];
+		var postid = values["postid"];
+		var username = values["username"];
+		const db = firebase.database().ref('comment/'+ key).set({
+			"datetime":datetime,
+			"description":description,
+			"postid":postid,
+			"username":username
+		});
+	}
+	handleSubmit(event)
+	{
+		event.preventDefault();
+		let comment = this;
+		if(comment.state.comments[0]==null)
+		{
+			comment.state.comments[0] = {};
+		}
+		var commentNew = comment.newComment(comment.state.value);
+		comment.state.value="";
+		Object.assign(comment.state.comments[0], commentNew);
+		comment.setState((state)=>(
+		{
+			comments: comment.state.comments
+		}));
+		comment.writeData(commentNew);
+	}
+
 	render()
 	{
 		var commentsArr = Array.from(new Set(Object.values(Object(this.state.comments[0]))));
 		return(
 			<div>
 				<div> <p> {commentsArr.length} comment(s) </p> </div>
+				<form onSubmit = {this.handleSubmit}>
+					<div className="writecomment formgroup">
+	                    <textarea value={this.state.value} className="form-control" rows="7" 
+	                    onChange={this.handleChange} placeholder="Write Something"/>
+	                    <button className="submit btn btn-primary" type="submit">Submit </button>
+	                </div>
+                </form>
 				<div>
 				{
        				commentsArr.map((comment,index)=>

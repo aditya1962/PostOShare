@@ -62,8 +62,21 @@ p
 {
 	padding:1% 0%;
 }
+
 .commentSection
 {
 	padding:1%;
 	background-color:#E8EAF1;
+}
+
+/*Form control elements */
+.writecomment
+{
+	text-align:right;
+	padding:2% 0% 0% 0%;
+}
+
+.submit
+{
+	margin:2% 0%;
 }
