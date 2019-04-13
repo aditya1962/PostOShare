@@ -1,8 +1,11 @@
+/* eslint-disable */
 import React, { Component } from 'react';
-import Post from './Components/Post';
-import User from './Components/User'
-import * as firebase from 'firebase'
-import UserDetails from './Components/UserDetails'
+import {BrowserRouter, Route,Switch} from 'react-router-dom';
+
+import Home from './Components/Home.js';
+import EditProfile from './Components/EditProfile.js';
+import Logout from './Components//Logout.js'
+import Error from './Components/Error.js';
 
 
 class App extends Component {
@@ -11,13 +14,14 @@ class App extends Component {
   render() {
 
     return (
-      <div className="App">
-      	<User />
-      	<div className="flexDiv">
-      	<UserDetails />
-      	<Post />
-      	</div>
-      </div>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" component = {Home} exact/>
+          <Route path="/editprofile" component = {EditProfile} />
+          <Route path="/logout" component={Logout} />
+          <Route component={Error} />
+        </Switch>
+      </BrowserRouter>
     );
   }
 }

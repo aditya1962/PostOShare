@@ -1,6 +1,5 @@
+/* eslint-disable */
 import React from 'react';
-import Post from './Post.js';
-import Comment from './Comment.js';
 import DateComment from './DateComment.js';
 import '../index.css'
 import * as firebase from 'firebase'

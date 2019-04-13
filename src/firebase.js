@@ -1,4 +1,6 @@
-import firebase from 'firebase'
+/* eslint-disable */
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 var config = {
     apiKey: "AIzaSyC0x7BDINL1BvNA_sKWK7Zr4YojFdePEik",

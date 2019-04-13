@@ -1,4 +1,9 @@
-import React from 'react'
+/* eslint-disable */
+import React from 'react';
+import {BrowserRouter,Router} from 'react-router-dom';
+
+import EditProfile from './EditProfile.js';
+import Navigation from './Navigation.js';
 
 class User extends React.Component
 {
@@ -11,6 +16,7 @@ class User extends React.Component
 				</div>
 				<div className="profile">
 					<button className="btn btn-default"><img src="https://placekitten.com/g/64/64" alt="profilePic"/> </button>
+					<Navigation />
 				</div>
 			</div>
 			);

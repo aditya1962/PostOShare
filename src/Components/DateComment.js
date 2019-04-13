@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import '../index.css';
 import * as GetDate from '../getDate.js';

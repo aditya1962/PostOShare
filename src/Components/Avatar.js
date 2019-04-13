@@ -1,5 +1,6 @@
+/* eslint-disable */
 import React from 'react';
-import Post from './Post.js';
+
 import * as firebase from 'firebase';
 
 
@@ -29,9 +30,8 @@ class Avatar extends React.Component
 	}
 	render()
 	{
-		console.log(this.state.imageURL)
 		return(
-				<img className="avatar" src={this.state.imageURL} alt="user image"/>
+				<img className="avatar" src={this.state.imageURL} alt="userImage"/>
 			);
 	}
 }

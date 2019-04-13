@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import Avatar from './Avatar.js';
 import UserInfo from './UserInfo.js';
@@ -88,13 +89,12 @@ class Post extends React.Component
        <div>
        {
         this.state.posts.map((post,index) =>
-         <div className="card postDiv">
+         <div className="card postDiv" key={index}>
          <div className = "card-body">
          <div className="post">
          <div key = {post.postContent.id} className="comment">
          <div className="flexDiv">
          <Avatar user={post.postContent.username}/>
-         {console.log(post.postContent.username)}
          <UserInfo userUrl = {post.postContent.userURL} userName = {post.postContent.username}
          date={post.postContent.datetime}/>
          </div>
@@ -102,7 +102,7 @@ class Post extends React.Component
          <p> {post.postContent.pstDescription} </p>
          </div>
          </div>
-         <div className="commentSection">
+         <div className="commentSection" key={index}>
          <div className="comments">
          <Comment postid={post.postContent.postid} />
          </div>

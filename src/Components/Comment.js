@@ -1,10 +1,9 @@
+/* eslint-disable */
 import React from 'react';
-import Post from './Post'
 import '../index.css';
 import Avatar from './Avatar';
 import UserInfo from './UserInfo';
 import * as firebase from 'firebase';
-import {getDateComment,getDateCommentString} from '../getDate.js';
 
 
 class Comment extends React.Component
@@ -71,7 +70,7 @@ class Comment extends React.Component
 		var description = values["description"];
 		var postid = values["postid"];
 		var username = values["username"];
-		const db = firebase.database().ref('comment/'+ key).set({
+		firebase.database().ref('comment/'+ key).set({
 			"datetime":datetime,
 			"description":description,
 			"postid":postid,
@@ -114,7 +113,7 @@ class Comment extends React.Component
 				<div>
 				{
        				commentsArr.map((comment,index)=>
-       				<div className="comment">
+       				<div className="comment" key={index}>
 	       				<div className="flexDiv">
 
 	       					<Avatar user={comment.username}/>
