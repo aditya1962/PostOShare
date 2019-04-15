@@ -34,6 +34,10 @@ p
 	width:55%;
 	margin:2% 22%;	
 }
+.error
+{
+	color:red;
+}
 
 /* Styles for user navigation row */
 
@@ -182,4 +186,9 @@ hr
 	flex:50%;
 	width:25%;
 	margin:0% 12% 0% 12%;
+}
+.cancelEdit a
+{
+	text-decoration:none;
+	color:white;
 }
