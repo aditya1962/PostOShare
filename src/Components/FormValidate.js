@@ -3,12 +3,20 @@ class FormValidate extends React.Component
 {
 	email=(value)=>
 	{
-		
-  		var emailValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(String(value).toLowerCase());
-  		if(emailValid===false)
-  		{
-  			return "Invalid Email";
+		var error ="";
+		if(!value)
+		{
+			error="Email cannot be empty";
+		}
+		else
+		{
+	  		var emailValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(String(value).toLowerCase());
+	  		if(emailValid===false)
+	  		{
+	  			error= "Invalid Email";
+	  		}
   		}
+  		return error;
 	}
 	password = (value)=>
 	{
@@ -35,7 +43,7 @@ class FormValidate extends React.Component
 		}
 		return error;
 	}
-	text = (eventName,value)=>
+	textError = (eventName,value)=>
 	{
 		var error = "";
 		if(!value)
