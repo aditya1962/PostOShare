@@ -10,7 +10,8 @@ class UserInfo extends React.Component
 	{
 		super();
 		this.state={
-			userURL : ''
+			userURL : '',
+			name:''
 		}
 	}
 	componentDidMount()
@@ -20,11 +21,12 @@ class UserInfo extends React.Component
 		let url = this;
 		user.on('value',snap=>
 		{
-			var userurl =  Object.values(Object(snap.val()))[0].userURL;
+			var user=  Object.values(Object(snap.val()))[0];
 			
 			url.setState((state)=>(
 		 	{
-		 		userURL:userurl
+		 		userURL:user.userURL,
+		 		name:user.name
 		 	}));
 		})
 
@@ -34,7 +36,7 @@ class UserInfo extends React.Component
 		return(
 			<div className="postinformation">
 				<div className="flexDiv">
-					<a className="userLink" href="#" rel="noopener noreferer" target="_blank"><strong>{this.state.userURL} </strong></a>
+					<a className="userLink" href={this.state.userURL} rel="noopener noreferer" target="_blank"><strong>{this.state.name} </strong></a>
 					<DateComment date={this.props.date}/>
 				</div>
 			</div>

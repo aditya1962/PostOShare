@@ -1,22 +1,81 @@
 /* eslint-disable */
-import React from 'react'
+import React from 'react';
+import * as firebase from 'firebase'
 
 class UserDetails extends React.Component
 {
+	constructor(props)
+	{
+		super(props);
+		this.state={
+			dob:"",
+			employer:"",
+			employment:"",
+			imageURL:"",
+			married:"",
+			name:"",
+			qualification:"",
+			university:"",
+			userURL:"",
+			username:""
+		}
+	}
+	componentDidMount()
+	{
+		var username = "erandi@14";
+		const ref = firebase.database().ref().child("users").orderByChild("username").equalTo(username);
+		let user=this;
+		ref.on('value',snap=>
+		{
+			var user = Object.values(snap.val())[0];
+			this.setState(
+			{
+				dob:user.dob,
+				employer:user.employer,
+				employment:user.employment,
+				imageURL:user.imageURL,
+				married:user.married,
+				name:user.name,
+				qualification:user.qualification,
+				university:user.university,
+				userURL:user.userURL,
+				username:user.username
+			})
+		});
+	}
 	render()
 	{
+		if(this.state.employer!="")
+		{
+			this.state.employer = " at " + this.state.employer;
+		} 
+		if(this.state.university!="")
+		{
+			this.state.university = " at " + this.state.university;
+		}
 		return(
 			<div className="user">
 				<div className="card postDiv">
 	         		<div className = "card-body">
-	         			<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-	         			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-	         			 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-	         			 ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
-	         			 in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-	         			  sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-	         			   mollit anim id est laborum.
-	         			</p>
+	         			<div className="flexDiv">
+	         				<img src={this.state.imageURL} alt="profile"/>
+	         				<div>
+		         				<p> {this.state.name} </p>
+		         				<p> {this.state.userURL} </p>
+	         				</div>
+	         			</div>
+	         			<div className="flexDiv">
+	         				<img src="#" alt="qualification"/>
+	         				<p> {this.state.qualification} {this.state.university}</p>
+	         			</div>
+	         			<div className="flexDiv">
+	         				<img src="#" alt="employed"/>
+	         				<p> {this.state.employment} {this.state.employer}</p>
+	         			</div>
+	         			<div className="flexDiv">
+	         				<img src="#" alt="marital"/>
+	         				<p> {this.state.married} </p>
+	         			</div>
 	         		</div>
 	         	</div>
 			</div>

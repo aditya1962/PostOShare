@@ -89,14 +89,14 @@ class Post extends React.Component
        <div>
        {
         this.state.posts.map((post,index) =>
+
          <div className="card postDiv" key={index}>
          <div className = "card-body">
          <div className="post">
          <div key = {post.postContent.id} className="comment">
          <div className="flexDiv">
          <Avatar user={post.postContent.username}/>
-         <UserInfo userUrl = {post.postContent.userURL} userName = {post.postContent.username}
-         date={post.postContent.datetime}/>
+         <UserInfo userName = {post.postContent.username} date={post.postContent.datetime}/>
          </div>
          <div className = "description">
          <p> {post.postContent.pstDescription} </p>

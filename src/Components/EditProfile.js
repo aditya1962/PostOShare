@@ -2,6 +2,7 @@ import React from 'react';
 
 import User from './User';
 import FormValidate from './FormValidate.js'
+import * as firebase from 'firebase'
 
 class EditProfile extends React.Component
 {
@@ -12,6 +13,7 @@ class EditProfile extends React.Component
 			email:"",
 			password1:"",
 			password2:"",
+			name:"",
 			qualification:"",
 			university:"",
 			employment:"",
@@ -23,10 +25,12 @@ class EditProfile extends React.Component
 				emailValid:"",
 				password1Valid:"",
 				password2Valid:"",
+				nameValid:"",
 				qualificationValid:"",
 				universityValid:"",
 				employmentValid:"",
 				employerValid:"",
+				marriedValid:"",
 				dobValid:"",
 				fileValid:"",
 				error:""
@@ -36,6 +40,7 @@ class EditProfile extends React.Component
 		this.handleChangeEmail = this.handleChangeEmail.bind(this);
 		this.handleChangePassword1 = this.handleChangePassword1.bind(this);
 		this.handleChangePassword2 = this.handleChangePassword2.bind(this);
+		this.handleChangeName = this.handleChangeName.bind(this);
 		this.handleChangeQualification = this.handleChangeQualification.bind(this);
 		this.handleChangeUniversity = this.handleChangeUniversity.bind(this);
 		this.handleChangeEmployment = this.handleChangeEmployment.bind(this);
@@ -43,15 +48,6 @@ class EditProfile extends React.Component
 		this.handleChangeMarried = this.handleChangeMarried.bind(this);
 		this.handleChangeDOB = this.handleChangeDOB.bind(this);
 		this.fileInput = React.createRef();
-		this.email = React.createRef();
-		this.password1 = React.createRef();
-		this.password2 = React.createRef();
-		this.qualification = React.createRef();
-		this.university = React.createRef();
-		this.employment = React.createRef();
-		this.employer = React.createRef();
-		this.married = React.createRef();
-		this.dob = React.createRef();
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	handleChangeEmail(event)
@@ -87,6 +83,18 @@ class EditProfile extends React.Component
 		{
 			password2:eventValue,
 			password2Valid:passwordValidate
+		}
+			)
+	}
+	handleChangeName(event)
+	{
+		const formValidate = new FormValidate();
+		var eventValue = event.target.value;
+		var nameValidated = formValidate.textError(event.target.name,eventValue);
+		this.setState(
+		{
+			name:eventValue,
+			nameValid:nameValidated
 		}
 			)
 	}
@@ -163,17 +171,19 @@ class EditProfile extends React.Component
 	{
 		const formValidate = new FormValidate();
 
-		var email = formValidate.email(this.email.current.value);
-		var password1 = formValidate.password(this.password1.current.value);
-		var password2 = formValidate.password(this.password2.current.value);
+		var email = formValidate.email(this.state.email);
+		var password1 = formValidate.password(this.state.password1);
+		var password2 = formValidate.password(this.state.password2);
 		var passwordMatchError = "Password and Confirm Password do not match";
-		var qualification = formValidate.textError("qualification",this.qualification.current.value);
-		var university = formValidate.textError("university",this.university.current.value);
-		var employment = formValidate.textError("employment",this.employment.current.value);
-		var employer = formValidate.textError("employer",this.employer.current.value);
-		var dob = formValidate.dob(this.dob.current.value);
+		var name = formValidate.textError("name",this.state.name);
+		var qualification = formValidate.textError("qualification",this.state.qualification);
+		var university = formValidate.textError("university",this.state.university);
+		var employment = formValidate.textError("employment",this.state.employment);
+		var employer = formValidate.textError("employer",this.state.employer);
+		var married = formValidate.textError("married",this.state.married);
+		var dob = formValidate.dob(this.state.dob);
 		var file = this.fileInput.current.files[0];
-		if(this.password1.current.value!==this.password2.current.value)
+		if(this.state.password1!==this.state.password2)
 		{
 			this.setState(
 			{
@@ -186,14 +196,16 @@ class EditProfile extends React.Component
 			emailValid:email,
 			password1Valid:password1,
 			password2Valid:password2,
+			nameValid:name,
 			qualificationValid:qualification,
 			universityValid:university,
 			employmentValid:employment,
 			employerValid:employer,
+			marriedValid:married,
 			dobValid:dob
 		}
 		)		
-		if(file==undefined)
+		if(file===undefined)
 		{
 			this.setState(
 			{
@@ -209,8 +221,8 @@ class EditProfile extends React.Component
 			}
 				)
 		}
-		if(email !="" || password1!="" || password2 !="" || qualification !="" || 
-			university !="" || employment !="" || employer!="" || dob !="" || file==undefined)
+		if(email !=="" || password1!=="" || password2 !=="" || name !=="" || qualification !=="" || 
+			university !=="" || employment !=="" || employer!=="" || dob !=="" || file===undefined)
 		{
 			return "error";
 		}
@@ -221,7 +233,30 @@ class EditProfile extends React.Component
 	}
 	update()
 	{
-
+		var username="anash142"
+		var user ={
+			email:this.state.email,
+			name:this.state.name,
+			qualification:this.state.qualification,
+			university:this.state.university,
+			employment:this.state.employment,
+			employer:this.state.employer,
+			married:this.state.married,
+			dob:this.state.dob,
+			imageURL:"",
+			username:username,
+			userURL:username
+		}
+		firebase.database().ref().child('users').orderByChild('username').equalTo(username)
+		.on("value",(snapshot)=>
+			{
+				snapshot.forEach((child)=>
+					{
+						var update = {};
+						update['/users/' + child.key] = user;
+						firebase.database().ref().update(update);
+					})
+			});
 	}
 	handleSubmit(event)
 	{
@@ -254,7 +289,7 @@ class EditProfile extends React.Component
 								<label> Email :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="email" type="text" placeholder="Enter Email" value={this.state.email} ref={this.email} onChange={this.handleChangeEmail}/>
+								<input className="form-control" name="email" type="text" placeholder="Enter Email" value={this.state.email} onChange={this.handleChangeEmail}/>
 								<div className="error"><p>{this.state.emailValid}</p></div>
 							</div>
 						</div>
@@ -263,7 +298,7 @@ class EditProfile extends React.Component
 								<label> Password :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="password1" type="text" placeholder="Enter New Password" onChange={this.handleChangePassword1} ref={this.password1} value={this.state.password1}/>
+								<input className="form-control" name="password1" type="text" placeholder="Enter New Password" onChange={this.handleChangePassword1} value={this.state.password1}/>
 								<div className="error"><p>{this.state.password1Valid}</p></div>
 							</div>
 						</div>
@@ -272,7 +307,7 @@ class EditProfile extends React.Component
 								<label> Confirm Password :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="password2" type="text" placeholder="Confirm New Password" onChange={this.handleChangePassword2} ref={this.password2} value={this.state.password2}/>
+								<input className="form-control" name="password2" type="text" placeholder="Confirm New Password" onChange={this.handleChangePassword2} value={this.state.password2}/>
 								<div className="error"><p>{this.state.password2Valid}</p></div>
 							</div>
 						</div>
@@ -280,10 +315,19 @@ class EditProfile extends React.Component
 						<h4 className="heading"> Personal Details </h4>
 						<div className="flexDiv">	
 							<div className="label">
+								<label> Full Name :  </label>
+							</div>
+							<div className="formelement">
+								<input className="form-control" name="name" type="text" placeholder="Enter Full Name" onChange={this.handleChangeName} value={this.state.name}/>
+								<div className="error"><p>{this.state.nameValid}</p></div>
+							</div>
+						</div>
+						<div className="flexDiv">	
+							<div className="label">
 								<label> Highest Educational Qualification :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="qualification" type="text" placeholder="Enter Qualification" onChange={this.handleChangeQualification} ref={this.qualification} value={this.state.qualification}/>
+								<input className="form-control" name="qualification" type="text" placeholder="Enter Qualification" onChange={this.handleChangeQualification} value={this.state.qualification}/>
 								<div className="error"><p>{this.state.qualificationValid}</p></div>
 							</div>
 						</div>
@@ -292,7 +336,7 @@ class EditProfile extends React.Component
 								<label> School/University :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="university" type="text" placeholder="Enter School/University" onChange={this.handleChangeUniversity} ref={this.university} value={this.state.university}/>
+								<input className="form-control" name="university" type="text" placeholder="Enter School/University" onChange={this.handleChangeUniversity} value={this.state.university}/>
 								<div className="error"><p>{this.state.universityValid}</p></div>
 							</div>
 						</div>
@@ -301,7 +345,7 @@ class EditProfile extends React.Component
 								<label> Current Employment :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="employment" type="text" placeholder="Enter Current Employment" onChange={this.handleChangeEmployment} ref={this.employment} value={this.state.employment}/>
+								<input className="form-control" name="employment" type="text" placeholder="Enter Current Employment" onChange={this.handleChangeEmployment} value={this.state.employment}/>
 								<div className="error"><p>{this.state.employmentValid}</p></div>
 							</div>
 						</div>
@@ -310,7 +354,7 @@ class EditProfile extends React.Component
 								<label> Employer:  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="employer" type="text" placeholder="Enter Current Employer" onChange={this.handleChangeEmployer} ref={this.employer} value={this.state.employer}/>
+								<input className="form-control" name="employer" type="text" placeholder="Enter Current Employer" onChange={this.handleChangeEmployer} value={this.state.employer}/>
 								<div className="error"><p>{this.state.employerValid}</p></div>
 							</div>
 						</div>
@@ -320,13 +364,14 @@ class EditProfile extends React.Component
 							</div>
 							<div className="formelement">
 								<div className="form-check form-check-inline">
-									<input className="form-check-input" type="radio" checked={this.state.married==="single"} onChange={this.handleChangeMarried} ref={this.married} value="single" checked />
+									<input className="form-check-input" type="radio" name="married" value="single" checked={this.state.married==="single"} onChange={this.handleChangeMarried}  />
 									<label className="form-check-label">Single </label>
 								</div>
 								<div className="form-check form-check-inline">
-									<input className="form-check-input" type="radio" checked = {this.state.married==="married"} onChange={this.handleChangeMarried} ref={this.married} value="married" />
+									<input className="form-check-input" type="radio" name="married" value="married" checked = {this.state.married==="married"} onChange={this.handleChangeMarried}  />
 									<label className="form-check-label">Married </label>
 								</div>
+								<div className="error"><p>{this.state.marriedValid}</p></div>
 							</div>
 						</div>
 						<div className="flexDiv">	
@@ -334,7 +379,7 @@ class EditProfile extends React.Component
 								<label> Date of Birth :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="dob" type="text" placeholder="Enter Date of Birth (E.g.:1993/02/19)" onChange={this.handleChangeDOB} ref={this.dob} value={this.state.dob}/>
+								<input className="form-control" name="dob" type="text" placeholder="Enter Date of Birth (E.g.:1993/02/19)" onChange={this.handleChangeDOB} value={this.state.dob}/>
 								<div className="error"><p>{this.state.dobValid}</p></div>
 							</div>
 						</div>
