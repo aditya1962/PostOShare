@@ -34,6 +34,11 @@ p
 	width:55%;
 	margin:2% 22%;	
 }
+.login
+{
+	width:40%;
+	margin:12% 30%;
+}
 .error
 {
 	color:red;
@@ -164,6 +169,10 @@ hr
 {
 	margin:2% 0%;
 }
+.submitLogin
+{
+	text-align:center;
+}
 
 /*Styles for Edit Profile */
 .heading
@@ -191,4 +200,37 @@ hr
 {
 	text-decoration:none;
 	color:white;
+}
+
+/*Styles for Login */
+.labelLogin
+{
+	margin:2% 4%;
+}
+.form-element-login
+{
+	width:70%;
+}
+.headingLogin
+{
+	text-align:center;
+	margin:3% 0% 7% 0%;	
+}
+.bottomDiv
+{
+	margin:5% 0%;
+}
+.register
+{
+	margin:-11% 0% 0% 2%;
+}
+.forgotPasswordFlex
+{
+	flex:40%;
+}
+.errorLogin
+{
+	color:red;
+	text-align:center;
+	margin:0% 0% 3% 0%;
 }

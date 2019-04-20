@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import {BrowserRouter, Route,Switch} from 'react-router-dom';
 
 import Home from './Components/Home.js';
+import Login from './Components/Login.js';
 import EditProfile from './Components/EditProfile.js';
-import Logout from './Components//Logout.js'
+import Logout from './Components//Logout.js';
 import Error from './Components/Error.js';
 
 
@@ -19,6 +20,7 @@ class App extends Component {
           <Route path="/" component = {Home} exact/>
           <Route path="/editprofile" component = {EditProfile} />
           <Route path="/logout" component={Logout} />
+          <Route path="/login" component={Login} />
           <Route component={Error} />
         </Switch>
       </BrowserRouter>

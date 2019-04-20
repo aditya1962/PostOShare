@@ -1,8 +1,9 @@
 import React from 'react';
 
 import User from './User';
-import FormValidate from './FormValidate.js'
-import * as firebase from 'firebase'
+import FormValidate from './FormValidate.js';
+import PasswordEncrypt from './PasswordEncrypt.js';
+import * as firebase from 'firebase';
 
 class EditProfile extends React.Component
 {
@@ -233,7 +234,9 @@ class EditProfile extends React.Component
 	}
 	update()
 	{
-		var username="anash142"
+		var username="anash142";
+		const passwordEncrypt = new PasswordEncrypt ();
+		var password = passwordEncrypt.encrypt(this.state.password1,username);
 		var user ={
 			email:this.state.email,
 			name:this.state.name,
@@ -247,6 +250,12 @@ class EditProfile extends React.Component
 			username:username,
 			userURL:username
 		}
+		var login = 
+		{
+			password:password,
+			email:this.state.email,
+			username:username
+		}
 		firebase.database().ref().child('users').orderByChild('username').equalTo(username)
 		.on("value",(snapshot)=>
 			{
@@ -254,6 +263,9 @@ class EditProfile extends React.Component
 					{
 						var update = {};
 						update['/users/' + child.key] = user;
+						firebase.database().ref().update(update);
+						update={};
+						update['/login/'+child.key] = login;
 						firebase.database().ref().update(update);
 					})
 			});
