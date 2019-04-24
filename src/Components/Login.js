@@ -1,7 +1,8 @@
 import React from 'react';
 import {NavLink,Redirect,Route} from 'react-router-dom';
 import * as firebase from 'firebase';
-import PasswordEncrypt from './PasswordEncrypt.js'
+import PasswordEncrypt from '../Data/PasswordEncrypt.js';
+import ProfileCookies from '../Data/ProfileCookies.js';
 
 class Login extends React.Component
 {
@@ -57,10 +58,6 @@ class Login extends React.Component
 		}
 		return error;
 	}
-	redirectHome()
-	{
-		return	<Redirect to="/"/>;
-	}
 	validateLogin()
 	{
 		const passwordEncrypt = new PasswordEncrypt();
@@ -107,12 +104,23 @@ class Login extends React.Component
 	}
 	render()
 	{
+		const user = new ProfileCookies();
+		var loggedout = "";
 		if(this.state.authenticate===true)
 		{
-			return <Redirect to="/" />;
+			const sessionNew = new ProfileCookies();
+			sessionNew.createUserSession(this.state.username);
+			return <Redirect to="/" />
+		}
+		if(this.props.location.state.loggedout!==undefined)
+		{
+			loggedout = "You must login to continue";
 		}
 		return(
 			<div className="login card">
+				<div className="loggedout alert alert-success">
+					{loggedout}
+				</div>
 				<div className="card-body">
 					<form onSubmit={this.handleSubmit}>
 						<h4 className="headingLogin"> Login </h4>

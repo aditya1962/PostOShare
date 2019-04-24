@@ -173,6 +173,10 @@ hr
 {
 	text-align:center;
 }
+.hidden
+{
+	display:none;
+}
 
 /*Styles for Edit Profile */
 .heading
@@ -233,4 +237,11 @@ hr
 	color:red;
 	text-align:center;
 	margin:0% 0% 3% 0%;
+}
+.loggedout
+{
+	text-align:center;
+	padding:1% 0%;
+	margin:3% 10% 0% 10%;
+	width:80%;
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import User from './User';
-import FormValidate from './FormValidate.js';
-import PasswordEncrypt from './PasswordEncrypt.js';
+import FormValidate from '../Data/FormValidate.js';
+import PasswordEncrypt from '../Data/PasswordEncrypt.js';
 import * as firebase from 'firebase';
 
 class EditProfile extends React.Component

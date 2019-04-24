@@ -5,7 +5,7 @@ import UserInfo from './UserInfo.js';
 import '../index.css';
 import App from '../App.js';
 import * as firebase from 'firebase';
-import Comment from './Comment'
+import Comment from './Comment';
 
 class Post extends React.Component
 {

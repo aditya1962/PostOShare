@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React from 'react';
+import {Redirect,Route} from 'react-router-dom';
 import '../index.css';
 import Avatar from './Avatar';
 import UserInfo from './UserInfo';
 import * as firebase from 'firebase';
-
 
 class Comment extends React.Component
 {
