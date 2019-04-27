@@ -1,11 +1,12 @@
+/* eslint-disable */
+
 import React from 'react';
-import {Redirect} from 'react-router-dom';
 
 class ProfileCookies extends React.Component
 {
 	createUserSession=(username,cb)=>
 	{
-		var cookie = "username="+username+";max-age="+100
+		var cookie = "username="+username+";max-age=100";
 		document.cookie = cookie;
 	}
 	isLoggedIn = ()=>

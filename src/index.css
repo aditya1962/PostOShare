@@ -34,7 +34,7 @@ p
 	width:55%;
 	margin:2% 22%;	
 }
-.login
+.login, .register
 {
 	width:40%;
 	margin:12% 30%;
@@ -224,7 +224,7 @@ hr
 {
 	margin:5% 0%;
 }
-.register
+.registerButton
 {
 	margin:-11% 0% 0% 2%;
 }
@@ -244,4 +244,30 @@ hr
 	padding:1% 0%;
 	margin:3% 10% 0% 10%;
 	width:80%;
+}
+.description button
+{
+	margin:2% 0%;
+}
+
+/*Styles for Register */
+
+.labelRegister
+{
+	margin:2% 4%;
+}
+.form-element-register
+{
+	width:70%;
+}
+.headingRegister
+{
+	text-align:center;
+	margin:3% 0% 7% 0%;	
+}
+.errorRegister
+{
+	color:red;
+	text-align:center;
+	margin:0% 0% 3% 0%;
 }

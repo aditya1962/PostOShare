@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink,Redirect,Route} from 'react-router-dom';
+import {NavLink,Redirect} from 'react-router-dom';
 import * as firebase from 'firebase';
 import PasswordEncrypt from '../Data/PasswordEncrypt.js';
 import ProfileCookies from '../Data/ProfileCookies.js';
@@ -104,7 +104,6 @@ class Login extends React.Component
 	}
 	render()
 	{
-		const user = new ProfileCookies();
 		var loggedout = "";
 		if(this.state.authenticate===true)
 		{
@@ -147,7 +146,7 @@ class Login extends React.Component
 						</div>
 						<div className="flexDiv bottomDiv">
 							<NavLink className="forgotPasswordFlex" to="/ForgotPassword"> Forgot Password? </NavLink>
-							<p> Don't have an account yet? </p> <NavLink to="/Register"><button className="btn btn-primary register"
+							<p> Don't have an account yet? </p> <NavLink to="/Register"><button className="btn btn-primary registerButton"
 							type="submit"> Register </button></NavLink>
 						</div>
 					</form>

@@ -4,6 +4,8 @@ import {Redirect,Route} from 'react-router-dom';
 import '../index.css';
 import Avatar from './Avatar';
 import UserInfo from './UserInfo';
+import ProfileCookies from '../Data/ProfileCookies.js';
+import CommentValidation from '../Data/CommentValidation.js'
 import * as firebase from 'firebase';
 
 class Comment extends React.Component
@@ -18,6 +20,7 @@ class Comment extends React.Component
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.submitComment = this.submitComment.bind(this);
 	}
 	componentDidMount()
 	{
@@ -48,6 +51,8 @@ class Comment extends React.Component
 	newComment(value)
 	{
 		var commentDate= new Date();
+		const profileCookies = new ProfileCookies();
+		const username = profileCookies.retrieveUserSession();
 		var date = commentDate.getFullYear().toString()+(commentDate.getMonth()+1).toString()+commentDate.getDate().toString()+
 		commentDate.getHours().toString()+commentDate.getMinutes().toString()+commentDate.getSeconds().toString();
 		var dateString = commentDate.getFullYear()+"/"+(commentDate.getMonth()+1)+"/"+commentDate.getDate()+" "
@@ -57,7 +62,7 @@ class Comment extends React.Component
 			"datetime":dateString,
 			"description":value,
 			"postid":this.props.postid,
-			"username":"name1"
+			"username":username
 		}}
 		return comment;
 
@@ -71,12 +76,28 @@ class Comment extends React.Component
 		var postid = values["postid"];
 		var username = values["username"];
 		firebase.database().ref('comment/'+ key).set({
+			"commentid":key,
 			"datetime":datetime,
 			"description":description,
 			"postid":postid,
 			"username":username
 		});
 	}
+
+	submitComment(event)
+	{
+	  event.preventDefault();
+      var id = event.target.id.slice(6);
+      var text = document.getElementById(id).innerHTML;
+      const logged = new ProfileCookies();
+      if(logged.isLoggedIn()===true)
+      {
+	      const commentV = new CommentValidation();
+	      commentV.updateComment(text,id,this.props.postid);
+  	  }
+      document.getElementById(id).contentEditable="false";
+	}
+
 	handleSubmit(event)
 	{
 		event.preventDefault();
@@ -115,13 +136,12 @@ class Comment extends React.Component
        				commentsArr.map((comment,index)=>
        				<div className="comment" key={index}>
 	       				<div className="flexDiv">
-
 	       					<Avatar user={comment.username}/>
-			        		<UserInfo userUrl = {comment.userURL} userName = {comment.username}
-                                date={comment.datetime}/>
+			        		<UserInfo commentId = {comment.commentid} userName = {comment.username} type="comment" date={comment.datetime}/>
 						</div>
 						<div className = "description">
-	                              <p> {comment.description} </p>
+	                              <p id={comment.commentid} contentEditable="false" suppressContentEditableWarning="true"> {comment.description.replace(/&nbsp;/g, " ")} </p>
+	                              <button id={"submit"+comment.commentid} onClick={this.submitComment} className="btn btn-primary hidden"> Submit </button>
 	                    </div>
 	                </div>  
        			)
