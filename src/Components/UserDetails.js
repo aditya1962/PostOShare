@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from 'react';
+import ProfileCookies from '../Data/ProfileCookies.js';
 import * as firebase from 'firebase'
 
 class UserDetails extends React.Component
@@ -22,7 +23,8 @@ class UserDetails extends React.Component
 	}
 	componentDidMount()
 	{
-		var username = "erandi@14";
+		const value = new ProfileCookies();
+		var username = value.retrieveUserSession();
 		const ref = firebase.database().ref().child("users").orderByChild("username").equalTo(username);
 		let user=this;
 		ref.on('value',snap=>

@@ -5,7 +5,9 @@ import UserInfo from './UserInfo.js';
 import '../index.css';
 import App from '../App.js';
 import * as firebase from 'firebase';
-import Comment from './Comment'
+import Comment from './Comment';
+import ProfileCookies from '../Data/ProfileCookies.js';
+import PostValidation from '../Data/PostValidation.js';
 
 class Post extends React.Component
 {
@@ -16,45 +18,16 @@ class Post extends React.Component
   	this.state = {
   		posts : []
   	}
+    this.id=React.createRef();
+    this.submitPost = this.submitPost.bind(this);
   }
 
-  update(newElement)
-  {
-    var postSet = this.state.posts;
-      //Get the postid of the last element
-      var currpostid = newElement.postContent.postid;
-      for(var i = 0; i < postSet.length;i++)
-      {
-        //check if current post id is equal to last post id
-        if(postSet[i].postContent.postid==currpostid)
-        {
-          //remove current element
-          postSet.splice(i,1);
-        }
-      }
-      //push the new element to the post set
-      postSet.push(newElement);
-      //this.sortPosts(postSet);
-      return postSet;
-    }
-
-    sortPosts(postSet)
-    {
-      var minPost = postSet[0];
-      for(var i = 0; i < postSet.length; i++)
-      {
-        if(postSet[i].postContent.postid < minPost.postContent.postid)
-        {
-          postSet.splice(0,0,postSet[i]);
-        }
-      }
-      
-      console.log(postSet);
-    }
+  
     
     componentDidMount()
     {
       const root = firebase.database().ref().child('posts');
+      const postV = new PostValidation();
       let data = this;
       const posts = this.state.posts;
       root.once('value',function(snapshot){
@@ -70,15 +43,22 @@ class Post extends React.Component
         });
       });
 
-      root.on("child_changed",function(child){
-        const newPost = {
-          postContent:child.val()
-        }
-        var postSet = data.update(newPost);
-        data.setState((state)=>({
-          posts:postSet
-        }));
-      })
+      
+
+    }
+
+    submitPost(event)
+    {
+      event.preventDefault();
+      var id = event.target.id[event.target.id.length-1];
+      var text = document.getElementById(id).innerHTML;
+      const logged = new ProfileCookies();
+      if(logged.isLoggedIn()===true)
+      {
+        const postV = new PostValidation();
+        postV.updatePost(text,id);
+      }
+      document.getElementById(id).contentEditable="false";
     }
 
 
@@ -96,10 +76,11 @@ class Post extends React.Component
          <div key = {post.postContent.id} className="comment">
          <div className="flexDiv">
          <Avatar user={post.postContent.username}/>
-         <UserInfo userName = {post.postContent.username} date={post.postContent.datetime}/>
+         <UserInfo postId={post.postContent.postid} type="post" userName = {post.postContent.username} date={post.postContent.datetime}/>
          </div>
          <div className = "description">
-         <p> {post.postContent.pstDescription} </p>
+         <p id={post.postContent.postid} contentEditable="false" suppressContentEditableWarning="true"> {post.postContent.pstDescription.replace(/&nbsp;/g, " ")} </p>
+         <button id={"submit"+post.postContent.postid} onClick={this.submitPost} className="btn btn-primary hidden"> Submit </button>
          </div>
          </div>
          <div className="commentSection" key={index}>
