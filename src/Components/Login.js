@@ -43,8 +43,7 @@ class Login extends React.Component
 	}
 	validateLogin()
 	{		
-		try{
-			firebase.database().ref().child('login').orderByChild("username").equalTo(this.state.username).on("value",(snapshot)=>
+		firebase.database().ref().child('login').orderByChild("username").equalTo(this.state.username).on("value",(snapshot)=>
 			{
 				if(snapshot.val()!==null)
 				{
@@ -64,11 +63,6 @@ class Login extends React.Component
 				}
 
 			})
-		}
-		catch(e)
-		{
-			alert("Could not validate login. Please check your internet connection");
-		}
 	}
 	handleSubmit(event)
 	{
@@ -87,7 +81,9 @@ class Login extends React.Component
 			return <Redirect to="/" />
 		}
 		return(
-			<div className="login card">
+			<div className="login">
+			<img className="logoText" src="images/icons/logo.png" alt="logo" />
+			<div className="card">
 				<div className="card-body">
 					<form onSubmit={this.handleSubmit}>
 						<h4 className="headingLogin"> Login </h4>
@@ -113,12 +109,13 @@ class Login extends React.Component
 							<button className="btn btn-primary" type="submit"> Login </button>
 						</div>
 						<div className="flexDiv bottomDiv">
-							<NavLink className="forgotPasswordFlex" to="/ForgotPassword"> Forgot Password? </NavLink>
+							<NavLink className="forgotPasswordFlex" to="/ConfirmPassword"> Forgot Password? </NavLink>
 							<p> Don't have an account yet? </p> <NavLink to="/Register"><button className="btn btn-primary registerButton"
 							type="submit"> Register </button></NavLink>
 						</div>
 					</form>
 				</div>
+			</div>
 			</div>
 
 			);

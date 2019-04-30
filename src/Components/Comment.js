@@ -4,8 +4,9 @@ import {Redirect,Route} from 'react-router-dom';
 import '../index.css';
 import Avatar from './Avatar';
 import UserInfo from './UserInfo';
+import ErrorBoundary from '../Data/ErrorBoundary.js';
 import ProfileCookies from '../Data/ProfileCookies.js';
-import CommentValidation from '../Data/CommentValidation.js'
+import CommentValidation from '../Data/CommentValidation.js';
 import * as firebase from 'firebase';
 
 class Comment extends React.Component
@@ -28,19 +29,12 @@ class Comment extends React.Component
 	}
 	componentDidMount()
 	{
-		try{
-			this.db.child("comment").orderByChild("postid").equalTo(this.props.postid)
+		this.db.child("comment").orderByChild("postid").equalTo(this.props.postid)
 			.on('value',snap=>
 			{
 				this.state.comments.push(snap.val())
 				this.setState((state)=>({comments:this.state.comments}));
 			});
-		}
-		catch(e)
-		{
-			alert("Could not load comments. Please check your internet connection");
-		}
-
 	}
 	handleChange(event)
 	{
@@ -68,21 +62,29 @@ class Comment extends React.Component
 		}}
 		return comment;
 	}
+	getNewCommentKey()
+    {
+      return new Promise(function(resolve,reject){
+      firebase.database().ref().child("comment").orderByChild("commentid").on("value",snapshot=>
+      {
+        var keys = Object.keys(snapshot.val());
+        var value = keys[keys.length-1];     
+        resolve("comment"+(parseInt(value[value.length-1])+1));
+      }) 
+    })
+      
+    }
 	writeData(comment)
 	{
-		try{
-			firebase.database().ref('comment/'+ Object.keys(comment)[0]).set({
-				"commentid":Object.keys(comment)[0],
-				"datetime":Object.values(comment)[0]["datetime"],
-				"description":Object.values(comment)[0]["description"],
-				"postid":Object.values(comment)[0]["postid"],
-				"username":Object.values(comment)[0]["username"]
+		this.getNewCommentKey().then((key)=>{
+			firebase.database().ref('comment/'+ key).set({
+					"commentid":parseInt(key[key.length-1]),
+					"datetime":Object.values(comment)[0]["datetime"],
+					"description":Object.values(comment)[0]["description"],
+					"postid":Object.values(comment)[0]["postid"],
+					"username":Object.values(comment)[0]["username"]
 			});
-		}
-		catch(e)
-		{
-			alert("Could not write comment to storage. Check your internet connection");
-		}
+		})
 	}
 
 	submitComment(event)
@@ -120,6 +122,7 @@ class Comment extends React.Component
 				<div className="flexDiv"> 
 					<p className="commentNumber"> {commentsArr.length} comment(s) </p>
 				</div>
+				<ErrorBoundary>
 				<form onSubmit = {this.handleSubmit}>
 					<div className="writecomment formgroup">
 	                    <textarea value={this.state.value} className="form-control" rows="7" 
@@ -127,18 +130,26 @@ class Comment extends React.Component
 	                    <button className="submit btn btn-primary" type="submit">Submit </button>
 	                </div>
                 </form>
+                </ErrorBoundary>
 				<div>
 				{
        				commentsArr.map((comment,index)=>
        				<div className="comment" key={index}>
 	       				<div className="flexDiv">
+	       					<ErrorBoundary>
 	       					<Avatar user={comment.username}/>
+	       					</ErrorBoundary>
+	       					<ErrorBoundary>
 			        		<UserInfo commentId = {comment.commentid} userName = {comment.username} type="comment" date={comment.datetime}/>
+							</ErrorBoundary>
 						</div>
 						<div className = "description">
+								<ErrorBoundary>
 	                              <p id={comment.commentid} contentEditable="false" suppressContentEditableWarning="true"> {comment.description.replace(/&nbsp;/g, " ")} </p>
 	                              <button id={"submit"+comment.commentid} onClick={this.submitComment} className="btn btn-primary hidden"> Submit </button>
+	                    		</ErrorBoundary>
 	                    </div>
+	                    <hr/>
 	                </div>  
        			)
        		}

@@ -22,7 +22,9 @@ body {
 }
 .avatar
 {
-	height:70%;
+	width:5%;
+	height:5%;
+	margin:0% 1% 0% 0%;
 }
 p
 {
@@ -34,10 +36,30 @@ p
 	width:55%;
 	margin:2% 22%;	
 }
-.login, .register
+.login
 {
 	width:40%;
-	margin:12% 30%;
+	margin:5% 30%;
+}
+.register
+{
+	width:50%;
+	margin:5% 25%;
+}
+.logoText
+{
+	width:25%;
+	margin:2% 37%;
+}
+.icon
+{
+	width:10%;
+	height:10%;
+	margin:1% 4%;
+}
+.edited
+{
+	color:blue;
 }
 .error
 {
@@ -159,7 +181,7 @@ hr
 }
 
 /*Form control elements */
-.writecomment
+.writecomment, .writePost
 {
 	text-align:right;
 	padding:2% 0% 0% 0%;
@@ -254,7 +276,8 @@ hr
 
 .labelRegister
 {
-	margin:2% 4%;
+	flex:30%;
+	margin:1.5% 0% 0% 0%;
 }
 .form-element-register
 {
@@ -264,6 +287,10 @@ hr
 {
 	text-align:center;
 	margin:3% 0% 7% 0%;	
+}
+.submitRegister
+{
+	margin:0% 5% 0% 35%;
 }
 .errorRegister
 {

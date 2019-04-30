@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import ErrorBoundary from '../Data/ErrorBoundary.js';
 import PasswordEncrypt from '../Data/PasswordEncrypt.js';
 import FormValidate from '../Data/FormValidate.js';
 import * as firebase from 'firebase';
@@ -67,23 +68,31 @@ class Register extends React.Component
 		}
 	}
 
+	getNewUserKey()
+	{
+		return new Promise(function(resolve,reject){
+		      firebase.database().ref().child("users").orderByChild("username").on("value",snapshot=>
+		      {
+		        var keys = Object.keys(snapshot.val());
+		        var value = keys[keys.length-1];     
+		        resolve("user"+(parseInt(value[value.length-1])+1));
+		      }) 
+		    })
+	}
+
 	register()
 	{
-		var login={
-			username:this.state.username,
-			password:this.passwordEncrypt.encrypt(this.state.password,this.state.username)
-		}
-		var user={
-			username:this.state.username
-		}
-		try{
-		firebase.database().ref('users/'+this.state.username).set(user);
-		firebase.database().ref('login/'+this.state.username).set(login);
-		}
-		catch(e)
-		{
-			alert("Could not register user. Please check your internet connection");
-		}
+		this.getNewUserKey().then((key)=>{
+			var login={
+				username:this.state.username,
+				password:this.passwordEncrypt.encrypt(this.state.password,this.state.username)
+			}
+			var user={
+				username:this.state.username
+			}
+			firebase.database().ref('users/'+key).set(user);
+			firebase.database().ref('login/'+key).set(login);
+		})
 	}
 
 	handleSubmit(event)
@@ -103,8 +112,11 @@ class Register extends React.Component
 	render()
 	{
 		return(
-			<div className="register card">
+			<div className="register">
+			<img className="logoText" src="images/icons/logo.png" alt="logo" />
+			<div className="card">
 				<div className="card-body">
+					<ErrorBoundary>
 					<form onSubmit={this.handleSubmit}>
 						<h4 className="headingRegister"> Register </h4>
 						<div className="flexDiv">
@@ -134,15 +146,16 @@ class Register extends React.Component
 							</div>							
 						</div>
 						<div className="errorRegister">{this.state.confirmPasswordValid} </div>
-						<div className="flexDiv submitRegister">
-							<button className="btn btn-primary" type="submit"> Register </button>
+						<div className="flexDiv">
+							<button className="btn btn-primary submitRegister" type="submit"> Register </button>
 							<NavLink to="/Login"><button className="btn btn-primary"
 							type="submit"> Login </button></NavLink>
 						</div>
 					</form>
+					</ErrorBoundary>
 				</div>
 			</div>
-
+			</div>
 			)
 	}
 }

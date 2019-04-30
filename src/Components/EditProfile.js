@@ -1,6 +1,7 @@
 import React from 'react';
 
 import User from './User';
+import ErrorBoundary from '../Data/ErrorBoundary.js';
 import FormValidate from '../Data/FormValidate.js';
 import PasswordEncrypt from '../Data/PasswordEncrypt.js';
 import ProfileCookies from '../Data/ProfileCookies.js';
@@ -130,9 +131,7 @@ class EditProfile extends React.Component
 	update()
 	{		
 		var values = this.updateInitialize();
-		try
-		{
-			firebase.database().ref().child('users').orderByChild('username').equalTo(this.userName)
+		firebase.database().ref().child('users').orderByChild('username').equalTo(this.userName)
 			.on("value",(snapshot)=>
 				{
 					snapshot.forEach((child)=>
@@ -144,12 +143,7 @@ class EditProfile extends React.Component
 							update['/login/'+child.key] = values[1];
 							firebase.database().ref().update(update);
 						})
-				});
-		}
-		catch(e)
-		{
-			alert("Could not update profile. Please check your internet connection");
-		}
+		});
 	}
 	handleSubmit(event)
 	{
@@ -167,9 +161,12 @@ class EditProfile extends React.Component
 	{
 		return(
 			<div className="App">
+				<ErrorBoundary>
 				<User />
+				</ErrorBoundary>
 				<div className="card editProfile">
 					<div className="card-body">
+						<ErrorBoundary>
 						<form onSubmit={this.handleSubmit}>
 						<h4 className="heading"> Login Information </h4>
 						<div className="flexDiv">	
@@ -284,6 +281,7 @@ class EditProfile extends React.Component
 							<button className="btn btn-primary update cancelEdit"> <a href="/">Cancel Changes </a></button>
 						</div>
 						</form>
+						</ErrorBoundary>
 					</div>
 				</div>
 			</div>

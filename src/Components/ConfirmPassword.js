@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import ErrorBoundary from '../Data/ErrorBoundary.js';
 import PasswordEncrypt from '../Data/PasswordEncrypt.js';
 import FormValidate from '../Data/FormValidate.js';
 import * as firebase from 'firebase';
@@ -51,19 +52,13 @@ class ConfirmPassword extends React.Component
 
 	validateUsername()
 	{
-		try{
-			firebase.database().ref().child('login').orderByChild("username").equalTo(this.state.username).on("value",(snapshot)=>
-			{
+		firebase.database().ref().child('login').orderByChild("username").equalTo(this.state.username).on("value",(snapshot)=>
+		{
 				if(snapshot.val()===null)
 				{
 					this.setState({usernameValid:"Username does not exist"})				
 				}
-			})
-		}
-		catch(e)
-		{
-			alert("Could not validate username. Please check your internet connection");
-		}
+		})
 	}
 
 
@@ -101,8 +96,11 @@ class ConfirmPassword extends React.Component
 	render()
 	{
 		return(
-			<div className="register card">
+			<div className="register">
+			<img className="logoText" src="images/icons/logo.png" alt="logo" />
+			<div className="card">
 				<div className="card-body">
+				<ErrorBoundary>
 					<form onSubmit={this.handleSubmit}>
 						<h4 className="headingRegister"> Forgot Password </h4>
 						<div className="flexDiv">
@@ -132,13 +130,15 @@ class ConfirmPassword extends React.Component
 							</div>							
 						</div>
 						<div className="errorRegister">{this.state.confirmPasswordValid} </div>
-						<div className="flexDiv submitRegister">
-							<button className="btn btn-primary" type="submit"> Reset Password </button>
+						<div className="flexDiv">
+							<button className="btn btn-primary submitRegister" type="submit"> Reset Password </button>
 							<NavLink to="/Login"><button className="btn btn-primary"
 							type="submit"> Login </button></NavLink>
 						</div>
 					</form>
+					</ErrorBoundary>
 				</div>
+			</div>
 			</div>
 
 			)

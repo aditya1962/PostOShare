@@ -2,6 +2,7 @@
 import React from 'react';
 import DateComment from './DateComment.js';
 import '../index.css';
+import ErrorBoundary from '../Data/ErrorBoundary.js';
 import ProfileCookies from '../Data/ProfileCookies.js';
 import * as firebase from 'firebase'
 import PostValidation from '../Data/PostValidation.js';
@@ -41,11 +42,10 @@ class UserInfo extends React.Component
 		 		name:user.name
 		 	}));
 		})
-
 	}
 	render()
 	{
-      	var button;
+      	var button,edited;
       	if(this.props.type==="post")
       	{
       		button=<button id={"post"+this.props.postId} onClick={this.editPost} 
@@ -56,16 +56,23 @@ class UserInfo extends React.Component
       		button=<button id={"comment"+this.props.commentId} onClick={this.editComment}
       		className={this.props.userName===this.profileCookies.retrieveUserSession()?'':'hidden'}> Edit </button>
       	}
+      	if(this.props.edited===true)
+      	{
+      		edited="Edited";
+      	}
 		return(
+			<ErrorBoundary>
 			<div className="postinformation">
 				<div className="flexDiv">
 					<a className="userLink" href={this.state.userURL} rel="noopener noreferer" target="_blank"><strong>{this.state.name} </strong></a>
 					<div>
+					<p className="edited">{edited}</p>
 					<DateComment date={this.props.date}/>
 					{button}
 					</div>
 				</div>
 			</div>
+			</ErrorBoundary>
 			);
 	}
 }
