@@ -18,31 +18,36 @@ class Post extends React.Component
   	this.state = {
   		posts : []
   	}
-    this.id=React.createRef();
+    this.postV = new PostValidation();
+    this.logged = new ProfileCookies();
     this.submitPost = this.submitPost.bind(this);
   }
 
   
     
     componentDidMount()
-    {
-      const root = firebase.database().ref().child('posts');
-      const postV = new PostValidation();
-      let data = this;
+    {     
       const posts = this.state.posts;
-      root.once('value',function(snapshot){
-        snapshot.forEach(function(child){
-          const postSet = [...data.state.posts]
-          const newPost = {
-            postContent:child.val()
-          }
-          postSet.push(newPost)
-          data.setState((state)=>({
-            posts:postSet
-          }));
+      let data = this;
+      try
+      {
+        firebase.database().ref().child('posts').once('value',function(snapshot){
+          snapshot.forEach(function(child){
+            const postSet = [...data.state.posts]
+            const newPost = {
+              postContent:child.val()
+            }
+            postSet.push(newPost)
+            data.setState((state)=>({
+              posts:postSet
+            }));
+          });
         });
-      });
-
+      }
+      catch(e)
+      {
+        alert("Could not load posts. Please check your internet connection");
+      }
       
 
     }
@@ -52,11 +57,10 @@ class Post extends React.Component
       event.preventDefault();
       var id = event.target.id[event.target.id.length-1];
       var text = document.getElementById(id).innerHTML;
-      const logged = new ProfileCookies();
-      if(logged.isLoggedIn()===true)
+      
+      if(this.logged.isLoggedIn()===true)
       {
-        const postV = new PostValidation();
-        postV.updatePost(text,id);
+        this.postV.updatePost(text,id);
       }
       document.getElementById(id).contentEditable="false";
     }

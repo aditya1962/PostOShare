@@ -4,36 +4,23 @@ import ProfileCookies from './ProfileCookies';
 
 class PostValidation extends React.Component
 {
+  constructor()
+  {
+    super();
+    this.profileCookies = new ProfileCookies();
+  }
 	update=(newElement)=>
   	{
     var postSet = this.state.posts;
-      //Get the postid of the last element
-      var currpostid = newElement.postContent.postid;
       for(var i = 0; i < postSet.length;i++)
       {
-        //check if current post id is equal to last post id
-        if(postSet[i].postContent.postid===currpostid)
+        if(postSet[i].postContent.postid===newElement.postContent.postid)
         {
-          //remove current element
           postSet.splice(i,1);
         }
       }
-      //push the new element to the post set
       postSet.push(newElement);
-      //this.sortPosts(postSet);
       return postSet;
-    }
-
-    sortPosts=(postSet)=>
-    {
-      var minPost = postSet[0];
-      for(var i = 0; i < postSet.length; i++)
-      {
-        if(postSet[i].postContent.postid < minPost.postContent.postid)
-        {
-          postSet.splice(0,0,postSet[i]);
-        }
-      }
     }
 
     getPost=(id)=>
@@ -45,15 +32,13 @@ class PostValidation extends React.Component
 
     updatePost=(text,id)=>
     {
-    	const profileCookies = new ProfileCookies();
-    	const user = profileCookies.retrieveUserSession();
     	var post={
-    		datetime:new Date(),
-    		edited:"true",
-    		postid:id,
-    		pstDescription:text,
-    		username:user
-    	}
+        datetime:new Date(),
+        edited:"true",
+        postid:id,
+        pstDescription:text,
+        username:this.profileCookies.retrieveUserSession()
+      }
     	firebase.database().ref().child('posts').orderByChild('postid').equalTo(id)
     	.on("value",(snapshot)=>
     	{
@@ -67,14 +52,12 @@ class PostValidation extends React.Component
     }
     updateComment=(text,id)=>
     {
-    	const profileCookies = new ProfileCookies();
-    	const user = profileCookies.retrieveUserSession();
     	var post={
     		datetime:new Date(),
     		edited:"true",
     		postid:id,
     		pstDescription:text,
-    		username:user
+    		username:this.profileCookies.retrieveUserSession()
     	}
     	firebase.database().ref().child('posts').orderByChild('postid').equalTo(id)
     	.on("value",(snapshot)=>

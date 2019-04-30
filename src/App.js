@@ -15,6 +15,7 @@ import Error from './Data/Error.js';
 
 class App extends Component {
   render() {
+    window.addEventListener('offline',()=>alert("Error in Internet connection"))
     return (
       <BrowserRouter>
         <Switch>

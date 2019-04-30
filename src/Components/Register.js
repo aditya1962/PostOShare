@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import PasswordEncrypt from '../Data/PasswordEncrypt.js';
+import FormValidate from '../Data/FormValidate.js';
 import * as firebase from 'firebase';
 
 class Register extends React.Component
@@ -9,16 +10,10 @@ class Register extends React.Component
 	{
 		super(props);
 		this.state={
-			username:"",
-			password:"",
-			confirmPassword:"",
-			formErrors:
-			{
-				usernameValid:"",
-				passwordValid:"",
-				confirmPasswordValid:""
-			}
-		}
+			username:"", password:"", confirmPassword:"", usernameValid:"", passwordValid:"", confirmPasswordValid:""
+				}
+		this.formValidate = new FormValidate();
+		this.passwordEncrypt = new PasswordEncrypt();
 		this.handleUsername = this.handleUsername.bind(this);
 		this.handlePassword = this.handlePassword.bind(this);
 		this.handleConfirm = this.handleConfirm.bind(this);
@@ -27,86 +22,81 @@ class Register extends React.Component
 
 	handleUsername(event)
 	{
-		this.setState(
-		{
-			username:event.target.value
-		})
+		this.setState({username:event.target.value})
 	}
 
 	handlePassword(event)
 	{
-		this.setState(
-		{
-			password:event.target.value
-		})
+		this.setState({password:event.target.value})
 	}
 
 	handleConfirm(event)
 	{
-		this.setState(
-		{
-			confirmPassword:event.target.value
-		})
+		this.setState({confirmPassword:event.target.value})
 	}
 
 	checkFields()
 	{
-		var error="";
-
-		if(this.state.username==="")
-		{
-			this.setState(
+		this.formValidate.initializeError();
+		this.setState(
 			{
-				usernameValid:"Username cannot be empty"
+				usernameValid:this.formValidate.textError("username",this.state.username),
+				passwordValid:this.formValidate.password(this.state.password),
+				confirmPasswordValid:this.formValidate.password(this.state.password)
 			})
-			error="true";
-		}
-		if(this.state.password==="")
-		{
-			this.setState(
-			{
-				passwordValid:"Password cannot be empty"
-			})
-			error="true";
-		}
-		if(this.state.confirmPassword==="")
-		{
-			this.setState(
-			{
-				confirmPasswordValid:"Confirm Password cannot be empty"
-			})
-			error="true";
-		}
 		if(this.state.password!==this.state.confirmPassword)
 		{
-			this.setState(
-			{	
-				confirmPasswordValid:"Password and Confirm Password need to be same"
-			})
-			error="true";
+			this.setState({	confirmPasswordValid:"Password and Confirm Password need to be same"})
 		}
-		return error;
+	}
+
+	checkUser()
+	{
+		try{
+			firebase.database().ref().child('login').orderByChild("username").equalTo(this.state.username).on("value",snapshot=>
+			{
+				if(snapshot.val()!==null)
+				{
+					this.setState({usernameValid:"Username not available"})
+				}
+				})
+		}
+		catch(e)
+		{
+			alert("Could not validate user. Please check your internet connection");
+		}
 	}
 
 	register()
 	{
-		const passwordEncrypt = new PasswordEncrypt();
-		var encryptedPassword = passwordEncrypt.encrypt(this.state.password,this.state.username);
-		var user={
+		var login={
 			username:this.state.username,
-			password:encryptedPassword
+			password:this.passwordEncrypt.encrypt(this.state.password,this.state.username)
 		}
-		firebase.database().ref('users/'+"user"+5).set(user);
-		firebase.database().ref('login/'+"user"+5).set(user);
+		var user={
+			username:this.state.username
+		}
+		try{
+		firebase.database().ref('users/'+this.state.username).set(user);
+		firebase.database().ref('login/'+this.state.username).set(login);
+		}
+		catch(e)
+		{
+			alert("Could not register user. Please check your internet connection");
+		}
 	}
 
 	handleSubmit(event)
 	{
 		event.preventDefault();
-		var error = this.checkFields();
-		if(error==="")
+		var error = this.formValidate.getError();
+		if(error.length===0)
 		{
-			this.register();
+			this.checkUser();
+			if(this.state.usernameValid!=="Username not available")
+			{
+				this.register();
+			}
 		}
 	}
 

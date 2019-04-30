@@ -4,38 +4,42 @@ import ProfileCookies from './ProfileCookies';
 
 class CommentValidation extends React.Component
 {
-	
+	  constructor()
+    {
+      super();
+      this.profileCookies = new ProfileCookies();
+    }
     getComment=(id)=>
     {
-      var comment = document.getElementById(id);
       document.getElementById(id).contentEditable="true";
-      comment.parentNode.childNodes[1].classList.remove("hidden");
+      document.getElementById(id).parentNode.childNodes[1].classList.remove("hidden");
     }
 
-    
-    updateComment=(text,id,post)=>
+    comment=(text,id,post)=>
     {
-    	const profileCookies = new ProfileCookies();
-    	const user = profileCookies.retrieveUserSession();
       var commentDate = new Date();
       var dateString = commentDate.getFullYear()+"/"+(commentDate.getMonth()+1)+"/"+commentDate.getDate()+" "
                       +commentDate.getHours()+":"+commentDate.getMinutes()+":"+commentDate.getSeconds();
-    	var comment={
-    		datetime:dateString,
-    		edited:"true",
-    		commentid:id,
-    		description:text,
+      var comment={
+        datetime:dateString,
+        edited:"true",
+        commentid:id,
+        description:text,
         postid:post,
-    		username:user
-    	}
+        username:this.profileCookies.retrieveUserSession()
+      }
+      return comment;
+    }
+
+    updateComment=(text,id,post)=>
+    {      
     	firebase.database().ref().child('comment').orderByChild('commentid').equalTo(id)
       .on("value",(snapshot)=>
       {
-        console.log(snapshot.val())
         snapshot.forEach((child)=>
         {
           var update={};
-          update['/comment/'+child.key] = comment;
+          update['/comment/'+child.key] = this.comment(text,id,post);
           firebase.database().ref().update(update);
         })
       })

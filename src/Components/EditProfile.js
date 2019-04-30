@@ -3,6 +3,7 @@ import React from 'react';
 import User from './User';
 import FormValidate from '../Data/FormValidate.js';
 import PasswordEncrypt from '../Data/PasswordEncrypt.js';
+import ProfileCookies from '../Data/ProfileCookies.js';
 import * as firebase from 'firebase';
 
 class EditProfile extends React.Component
@@ -10,32 +11,18 @@ class EditProfile extends React.Component
 	constructor(props)
 	{
 		super(props);
+		this.profileCookies = new ProfileCookies();
+		this.passwordEncrypt = new PasswordEncrypt ();
+		this.formValidate = new FormValidate();
+		this.formValidate.initializeError();
+		this.userName = this.profileCookies.retrieveUserSession();
 		this.state={
-			email:"",
-			password1:"",
-			password2:"",
-			name:"",
-			qualification:"",
-			university:"",
-			employment:"",
-			employer:"",
-			married:"",
-			dob:"",
-			formErrors:
-			{
-				emailValid:"",
-				password1Valid:"",
-				password2Valid:"",
-				nameValid:"",
-				qualificationValid:"",
-				universityValid:"",
-				employmentValid:"",
-				employerValid:"",
-				marriedValid:"",
-				dobValid:"",
-				fileValid:"",
-				error:""
-			}
+			email:"", password1:"", password2:"", name:"", qualification:"", university:"",
+			employment:"", employer:"", married:"", dob:"",
+			emailValid:"", password1Valid:"", password2Valid:"", nameValid:"",
+			qualificationValid:"", universityValid:"", employmentValid:"",
+			employerValid:"", marriedValid:"", dobValid:"", error:""
+			
 		};
 
 		this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -48,196 +35,78 @@ class EditProfile extends React.Component
 		this.handleChangeEmployer = this.handleChangeEmployer.bind(this);
 		this.handleChangeMarried = this.handleChangeMarried.bind(this);
 		this.handleChangeDOB = this.handleChangeDOB.bind(this);
-		this.fileInput = React.createRef();
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	handleChangeEmail(event)
-	{
-		const formValidate = new FormValidate();
-		var eventValue = event.target.value;
-		var emailValidate = formValidate.email(eventValue);
-		this.setState(
-		{
-			email:eventValue, 
-			emailValid:emailValidate
-		}
-			)
+	{	
+		this.setState({ email:event.target.value, emailValid:this.formValidate.email(event.target.value)})
 	}
 	handleChangePassword1(event)
 	{
-		const formValidate = new FormValidate();
-		var eventValue = event.target.value;
-		var passwordValidate = formValidate.password(eventValue);
-		this.setState(
-		{
-			password1:eventValue,
-			password1Valid:passwordValidate
-		}
-			)
+		this.setState({password1:event.target.value, password1Valid:this.formValidate.password(event.target.value)})
 	}
 	handleChangePassword2(event)
 	{
-		const formValidate = new FormValidate();
-		var eventValue = event.target.value;
-		var passwordValidate = formValidate.password(eventValue);
-		this.setState(
-		{
-			password2:eventValue,
-			password2Valid:passwordValidate
-		}
-			)
+		this.setState({password2:event.target.value, password2Valid:this.formValidate.password(event.target.value)})
 	}
 	handleChangeName(event)
 	{
-		const formValidate = new FormValidate();
-		var eventValue = event.target.value;
-		var nameValidated = formValidate.textError(event.target.name,eventValue);
-		this.setState(
-		{
-			name:eventValue,
-			nameValid:nameValidated
-		}
-			)
+		this.setState({name:event.target.value, nameValid:this.formValidate.textError(event.target.name,event.target.value)})
 	}
 	handleChangeQualification(event)
 	{
-		const formValidate = new FormValidate();
-		var eventValue = event.target.value;
-		var qualificationValidated = formValidate.textError(event.target.name,eventValue);
-		this.setState(
-		{
-			qualification:eventValue,
-			qualificationValid:qualificationValidated
-		}
-			)
+		this.setState({qualification:event.target.value, 
+					   qualificationValid:this.formValidate.textError(event.target.name,event.target.value)})
 	}
 	handleChangeUniversity(event)
 	{
-		const formValidate = new FormValidate();
-		var eventValue = event.target.value;
-		var universityValidated = formValidate.textError(event.target.name,eventValue);
-		this.setState(
-		{
-			university:eventValue,
-			universityValid:universityValidated
-		}
-			)
+		this.setState({university:event.target.value, 
+			           universityValid:this.formValidate.textError(event.target.name,event.target.value)})
 	}
 	handleChangeEmployment(event)
 	{
-		const formValidate = new FormValidate();
-		var eventValue = event.target.value;
-		var employmentValidated = formValidate.textError(event.target.name,eventValue);
-		this.setState(
-		{
-			employment:eventValue,
-			employmentValid:employmentValidated
-		}
-			)
+		this.setState({employment:event.target.value,
+					   employmentValid:this.formValidate.textError(event.target.name,event.target.value)})
 	}
 	handleChangeEmployer(event)
 	{
-		const formValidate = new FormValidate();
-		var eventValue = event.target.value;
-		var employerValidated = formValidate.textError(event.target.name,eventValue);
-		this.setState(
-		{
-			employer:eventValue,
-			employerValid:employerValidated
-		}
-			)
+		this.setState({employer:event.target.value,
+					   employerValid:this.formValidate.textError(event.target.name,event.target.value)})
 	}
 	handleChangeMarried(event)
 	{
-		var eventValue = event.target.value;
-		this.setState(
-		{
-			married:eventValue
-		}
-			)
+		this.setState({married:event.target.value})
 	}
 	handleChangeDOB(event)
 	{
-		const formValidate = new FormValidate();
-		var eventValue = event.target.value;
-		var dobValidated = formValidate.dob(eventValue);
-		this.setState(
-		{
-			dob:eventValue,
-			dobValid:dobValidated
-		}
-			)
+		this.setState({dob:event.target.value, dobValid:this.formValidate.dob(event.target.value)})
 	}
 	checkFields()
 	{
-		const formValidate = new FormValidate();
-
-		var email = formValidate.email(this.state.email);
-		var password1 = formValidate.password(this.state.password1);
-		var password2 = formValidate.password(this.state.password2);
-		var passwordMatchError = "Password and Confirm Password do not match";
-		var name = formValidate.textError("name",this.state.name);
-		var qualification = formValidate.textError("qualification",this.state.qualification);
-		var university = formValidate.textError("university",this.state.university);
-		var employment = formValidate.textError("employment",this.state.employment);
-		var employer = formValidate.textError("employer",this.state.employer);
-		var married = formValidate.textError("married",this.state.married);
-		var dob = formValidate.dob(this.state.dob);
-		var file = this.fileInput.current.files[0];
-		if(this.state.password1!==this.state.password2)
+		if(this.state.password1!==this.state.password2) 
 		{
-			this.setState(
-			{
-				password2Valid:passwordMatchError
-			}
-			)
+			this.setState({ password2Valid:"Password and Confirm Password do not match" })
 		}
+		
 		this.setState(
 		{
-			emailValid:email,
-			password1Valid:password1,
-			password2Valid:password2,
-			nameValid:name,
-			qualificationValid:qualification,
-			universityValid:university,
-			employmentValid:employment,
-			employerValid:employer,
-			marriedValid:married,
-			dobValid:dob
+			emailValid:this.formValidate.email(this.state.email),
+			password1Valid:this.formValidate.password(this.state.password1),
+			password2Valid:this.formValidate.password(this.state.password2),
+			nameValid:this.formValidate.textError("name",this.state.name),
+			qualificationValid:this.formValidate.textError("qualification",this.state.qualification),
+			universityValid:this.formValidate.textError("university",this.state.university),
+			employmentValid:this.formValidate.textError("employment",this.state.employment),
+			employerValid:this.formValidate.textError("employer",this.state.employer),
+			marriedValid:this.formValidate.textError("married",this.state.married),
+			dobValid:this.formValidate.dob(this.state.dob)
 		}
-		)		
-		if(file===undefined)
-		{
-			this.setState(
-			{
-				fileValid:"File not chosen"
-			}
-				)
-		}
-		else
-		{
-			this.setState(
-			{
-				fileValid:""
-			}
-				)
-		}
-		if(email !=="" || password1!=="" || password2 !=="" || name !=="" || qualification !=="" || 
-			university !=="" || employment !=="" || employer!=="" || dob !=="" || file===undefined)
-		{
-			return "error";
-		}
-		else
-		{
-			return "";
-		}
+		)
 	}
-	update()
+	updateInitialize()
 	{
-		var username="anash142";
-		const passwordEncrypt = new PasswordEncrypt ();
-		var password = passwordEncrypt.encrypt(this.state.password1,username);
-		var user ={
+		var values =[];
+		values[0] ={
 			email:this.state.email,
 			name:this.state.name,
 			qualification:this.state.qualification,
@@ -247,37 +116,52 @@ class EditProfile extends React.Component
 			married:this.state.married,
 			dob:this.state.dob,
 			imageURL:"",
-			username:username,
-			userURL:username
+			username:this.userName,
+			userURL:this.userName
 		}
-		var login = 
+		values[1] = 
 		{
-			password:password,
+			password:this.passwordEncrypt.encrypt(this.state.password1,this.userName),
 			email:this.state.email,
-			username:username
+			username:this.userName
 		}
-		firebase.database().ref().child('users').orderByChild('username').equalTo(username)
-		.on("value",(snapshot)=>
-			{
-				snapshot.forEach((child)=>
-					{
-						var update = {};
-						update['/users/' + child.key] = user;
-						firebase.database().ref().update(update);
-						update={};
-						update['/login/'+child.key] = login;
-						firebase.database().ref().update(update);
-					})
-			});
+		return values;
+	}
+	update()
+	{		
+		var values = this.updateInitialize();
+		try
+		{
+			firebase.database().ref().child('users').orderByChild('username').equalTo(this.userName)
+			.on("value",(snapshot)=>
+				{
+					snapshot.forEach((child)=>
+						{
+							var update = {};
+							update['/users/' + child.key] = values[0];
+							firebase.database().ref().update(update);
+							update={};
+							update['/login/'+child.key] = values[1];
+							firebase.database().ref().update(update);
+						})
+				});
+		}
+		catch(e)
+		{
+			alert("Could not update profile. Please check your internet connection");
+		}
 	}
 	handleSubmit(event)
 	{
 		event.preventDefault();
-		var errors = this.checkFields();
-		if(errors!=="error")
+		this.formValidate.initializeError();
+		this.checkFields();
+		var errors = this.formValidate.getError();
+		if(errors.length===0)
 		{
-			this.update();
+			this.update()
 		}
+		
 	}
 	render()
 	{
@@ -293,7 +177,7 @@ class EditProfile extends React.Component
 								<label> Username :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" type="text" readOnly value="" />
+								<input className="form-control" type="text" readOnly value={this.userName} />
 							</div>
 						</div>
 						<div className="flexDiv">	
@@ -393,15 +277,6 @@ class EditProfile extends React.Component
 							<div className="formelement">
 								<input className="form-control" name="dob" type="text" placeholder="Enter Date of Birth (E.g.:1993/02/19)" onChange={this.handleChangeDOB} value={this.state.dob}/>
 								<div className="error"><p>{this.state.dobValid}</p></div>
-							</div>
-						</div>
-						<div className="flexDiv">	
-							<div className="label">
-								<label> User Image:  </label>
-							</div>
-							<div className="formelement">
-								<input type="file" className="form-control-file" ref = {this.fileInput} id="profileImage" />
-								<div className="error"><p>{this.state.fileValid}</p></div>
 							</div>
 						</div>
 						<div className="flexDiv">

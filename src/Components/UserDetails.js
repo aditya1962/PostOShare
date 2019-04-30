@@ -9,52 +9,31 @@ class UserDetails extends React.Component
 	{
 		super(props);
 		this.state={
-			dob:"",
-			employer:"",
-			employment:"",
-			imageURL:"",
-			married:"",
-			name:"",
-			qualification:"",
-			university:"",
-			userURL:"",
-			username:""
-		}
+			dob:"", employer:"", employment:"", imageURL:"", married:"", name:"", qualification:"",
+			university:"", userURL:"", username:""
+			}
+		this.profileCookies = new ProfileCookies();
 	}
 	componentDidMount()
 	{
-		const value = new ProfileCookies();
-		var username = value.retrieveUserSession();
-		const ref = firebase.database().ref().child("users").orderByChild("username").equalTo(username);
-		let user=this;
-		ref.on('value',snap=>
-		{
-			var user = Object.values(snap.val())[0];
-			this.setState(
+		var username = this.profileCookies.retrieveUserSession();
+		try{
+			firebase.database().ref().child("users").orderByChild("username").equalTo(username).on('value',snap=>
 			{
-				dob:user.dob,
-				employer:user.employer,
-				employment:user.employment,
-				imageURL:user.imageURL,
-				married:user.married,
-				name:user.name,
-				qualification:user.qualification,
-				university:user.university,
-				userURL:user.userURL,
-				username:user.username
-			})
-		});
+				var user = Object.values(snap.val())[1];
+				this.setState({ dob:user.dob, employer:user.employer, employment:user.employment,
+					imageURL:user.imageURL,	married:user.married, name:user.name,
+					qualification:user.qualification, university:user.university,
+					userURL:user.userURL, username:user.username })
+			});
+		}
+		catch(e)
+		{
+			alert("Could not load user details. Please check your internet connection");
+		}
 	}
 	render()
 	{
-		if(this.state.employer!="")
-		{
-			this.state.employer = " at " + this.state.employer;
-		} 
-		if(this.state.university!="")
-		{
-			this.state.university = " at " + this.state.university;
-		}
 		return(
 			<div className="user">
 				<div className="card postDiv">

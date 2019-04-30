@@ -7,8 +7,7 @@ class Logout extends React.Component
 	render()
 	{
 		const profileCookies = new ProfileCookies();
-		var username = profileCookies.retrieveUserSession();
-		var cookie = "username="+username+";max-age=0"
+		var cookie = "username="+profileCookies.retrieveUserSession()+";max-age=0"
 		document.cookie = cookie;
 		return(
 			<Redirect to ={{pathname:'/login', state:{loggedout:"true"}}} />

@@ -1,7 +1,3 @@
-
-
-
-
 export function getDate(date)
 {
 	var currentDate = new Date();

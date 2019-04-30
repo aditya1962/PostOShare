@@ -9,89 +9,66 @@ class Login extends React.Component
 	constructor(props)
 	{
 		super(props);
+		this.passwordEncrypt = new PasswordEncrypt();
+		this.sessionNew = new ProfileCookies();
 		this.state={
-			username:"",
-			password:"",
-			authenticate:false,
-			formErrors:
-			{
-				usernameValid:"",
-				passwordValid:""
+			username:"", password:"", authenticate:false, usernameValid:"", passwordValid:""
 			}
-		}
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChangeUsername = this.handleChangeUsername.bind(this);
 		this.handleChangePassword = this.handleChangePassword.bind(this);
 	}
 	handleChangeUsername(event)
 	{
-		this.setState(
-		{
-			username:event.target.value
-		})
+		this.setState({username:event.target.value })
 	}
 	handleChangePassword(event)
 	{
-		this.setState(
-		{
-			password:event.target.value
-		})
+		this.setState({password:event.target.value})
 	}
 	checkFields()
 	{
 		var error="";
 		if(this.state.username==="")
 		{
-			this.setState(
-				{
-					usernameValid:"Username cannot be empty"
-				}) 
+			this.setState({usernameValid:"Username cannot be empty"}) 
 			error="error";
 		}
 		if(this.state.password==="")
 		{
-			this.setState(
-			{
-				passwordValid:"Password cannot be empty"
-			})
+			this.setState({passwordValid:"Password cannot be empty"})
 			error="error";
 		}
 		return error;
 	}
 	validateLogin()
-	{
-		const passwordEncrypt = new PasswordEncrypt();
-		firebase.database().ref().child('login').orderByChild("username").equalTo(this.state.username).on("value",(snapshot)=>
-		{
-			if(snapshot.val()!==null)
+	{		
+		try{
+			firebase.database().ref().child('login').orderByChild("username").equalTo(this.state.username).on("value",(snapshot)=>
 			{
-				var password = passwordEncrypt.decrypt(snapshot.val().user2.password,this.state.username);
-				if(password===this.state.password)
+				if(snapshot.val()!==null)
 				{
-					this.setState(
+					var password = this.passwordEncrypt.decrypt(Object.values(snapshot.val())[0].password,this.state.username);
+					if(password===this.state.password)
 					{
-						authenticate:true
-					})
+						this.setState({authenticate:true})
+					}
+					else
+					{
+						this.setState({usernameValid:"",passwordValid:"Username/Password invalid"})
+					}
 				}
 				else
 				{
-					this.setState(
-					{
-						usernameValid:"",
-						passwordValid:"Username/Password invalid"
-					})
+					this.setState({usernameValid:"User does not exist",passwordValid:""})
 				}
-			}
-			else
-			{
-				this.setState(
-				{
-					usernameValid:"User does not exist",
-					passwordValid:""
-				})
-			}
 
-		})
+			})
+		}
+		catch(e)
+		{
+			alert("Could not validate login. Please check your internet connection");
+		}
 	}
 	handleSubmit(event)
 	{
@@ -104,22 +81,13 @@ class Login extends React.Component
 	}
 	render()
 	{
-		var loggedout = "";
 		if(this.state.authenticate===true)
-		{
-			const sessionNew = new ProfileCookies();
-			sessionNew.createUserSession(this.state.username);
+		{		
+			this.sessionNew.createUserSession(this.state.username);
 			return <Redirect to="/" />
-		}
-		if(this.props.location.state.loggedout!==undefined)
-		{
-			loggedout = "You must login to continue";
 		}
 		return(
 			<div className="login card">
-				<div className="loggedout alert alert-success">
-					{loggedout}
-				</div>
 				<div className="card-body">
 					<form onSubmit={this.handleSubmit}>
 						<h4 className="headingLogin"> Login </h4>

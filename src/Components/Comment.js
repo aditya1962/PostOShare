@@ -18,70 +18,71 @@ class Comment extends React.Component
 			comments : [],
 			value:""
 		}
+		this.db = firebase.database().ref();
+		this.profileCookies = new ProfileCookies();
+		this.logged = new ProfileCookies();
+		this.commentV = new CommentValidation();
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.submitComment = this.submitComment.bind(this);
 	}
 	componentDidMount()
 	{
-		var postid = this.props.postid;
-		
-		const db = firebase.database().ref();
-		const comment = db.child("comment").orderByChild("postid").equalTo(postid);
-		let data = this;
-		comment.on('value',snap=>
-		{
-			data.state.comments.push(snap.val())
-			data.setState((state)=>(
+		try{
+			this.db.child("comment").orderByChild("postid").equalTo(this.props.postid)
+			.on('value',snap=>
 			{
-				comments:data.state.comments
-			}));
-		});
+				this.state.comments.push(snap.val())
+				this.setState((state)=>({comments:this.state.comments}));
+			});
+		}
+		catch(e)
+		{
+			alert("Could not load comments. Please check your internet connection");
+		}
 
 	}
 	handleChange(event)
 	{
 		let value = this;
-		value.setState(
-		{
-			value:event.target.value
-		}
-			)
+		value.setState({value:event.target.value})
 	}
-	newComment(value)
+	getCommentKey()
 	{
 		var commentDate= new Date();
-		const profileCookies = new ProfileCookies();
-		const username = profileCookies.retrieveUserSession();
 		var date = commentDate.getFullYear().toString()+(commentDate.getMonth()+1).toString()+commentDate.getDate().toString()+
 		commentDate.getHours().toString()+commentDate.getMinutes().toString()+commentDate.getSeconds().toString();
-		var dateString = commentDate.getFullYear()+"/"+(commentDate.getMonth()+1)+"/"+commentDate.getDate()+" "
-		+commentDate.getHours()+":"+commentDate.getMinutes()+":"+commentDate.getSeconds();
 		var commentKey = "comment"+date.toString();
-		const comment = {[commentKey]:{
+		return commentKey;
+	}
+	newComment(value)
+	{		
+		var commentDate= new Date();
+		var dateString = commentDate.getFullYear()+"/"+(commentDate.getMonth()+1)+"/"+commentDate.getDate()+" "
+		+commentDate.getHours()+":"+commentDate.getMinutes()+":"+commentDate.getSeconds();		
+		const comment = {[this.getCommentKey()]:{
 			"datetime":dateString,
 			"description":value,
 			"postid":this.props.postid,
-			"username":username
+			"username":this.profileCookies.retrieveUserSession()
 		}}
 		return comment;
-
 	}
 	writeData(comment)
 	{
-		var key = Object.keys(comment)[0];
-		var values = Object.values(comment)[0];
-		var datetime = values["datetime"];
-		var description = values["description"];
-		var postid = values["postid"];
-		var username = values["username"];
-		firebase.database().ref('comment/'+ key).set({
-			"commentid":key,
-			"datetime":datetime,
-			"description":description,
-			"postid":postid,
-			"username":username
-		});
+		try{
+			firebase.database().ref('comment/'+ Object.keys(comment)[0]).set({
+				"commentid":Object.keys(comment)[0],
+				"datetime":Object.values(comment)[0]["datetime"],
+				"description":Object.values(comment)[0]["description"],
+				"postid":Object.values(comment)[0]["postid"],
+				"username":Object.values(comment)[0]["username"]
+			});
+		}
+		catch(e)
+		{
+			alert("Could not write comment to storage. Check your internet connection");
+		}
 	}
 
 	submitComment(event)
@@ -89,11 +90,10 @@ class Comment extends React.Component
 	  event.preventDefault();
       var id = event.target.id.slice(6);
       var text = document.getElementById(id).innerHTML;
-      const logged = new ProfileCookies();
-      if(logged.isLoggedIn()===true)
+
+      if(this.logged.isLoggedIn()===true)
       {
-	      const commentV = new CommentValidation();
-	      commentV.updateComment(text,id,this.props.postid);
+	      this.commentV.updateComment(text,id,this.props.postid);
   	  }
       document.getElementById(id).contentEditable="false";
 	}
@@ -101,19 +101,15 @@ class Comment extends React.Component
 	handleSubmit(event)
 	{
 		event.preventDefault();
-		let comment = this;
-		if(comment.state.comments[0]==null)
+		if(this.state.comments[0]==null)
 		{
-			comment.state.comments[0] = {};
+			this.state.comments[0] = {};
 		}
-		var commentNew = comment.newComment(comment.state.value);
-		comment.state.value="";
-		Object.assign(comment.state.comments[0], commentNew);
-		comment.setState((state)=>(
-		{
-			comments: comment.state.comments
-		}));
-		comment.writeData(commentNew);
+		var commentNew = this.newComment(this.state.value);
+		this.state.value="";
+		Object.assign(this.state.comments[0], commentNew);
+		this.setState((state)=>({comments: this.state.comments}));
+		this.writeData(commentNew);
 	}
 
 	render()

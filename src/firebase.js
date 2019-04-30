@@ -11,7 +11,11 @@ var config = {
     messagingSenderId: "136183787820"
   };
   
-
-  var db = firebase.initializeApp(config);
-
+  try{
+  	var db = firebase.initializeApp(config);
+	}
+  catch(e)
+ {
+	alert("Could not initialize storage. Please check your internet connection");
+ }
   export default db;

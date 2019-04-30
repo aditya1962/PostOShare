@@ -7,13 +7,18 @@ class ProfileCookies extends React.Component
 	createUserSession=(username,cb)=>
 	{
 		var cookie = "username="+username+";max-age=100";
-		document.cookie = cookie;
+		try{
+			document.cookie = cookie;
+		}
+		catch(e)
+		{
+			alert("An error occured while initializing session");
+		}
 	}
 	isLoggedIn = ()=>
 	{
-		var user = this.retrieveUserSession();
 		var loggedIn =false;
-		if(user!=="")
+		if(this.retrieveUserSession()!=="")
 		{
 			loggedIn=true;
 		}

@@ -13,33 +13,29 @@ class UserInfo extends React.Component
 	{
 		super();
 		this.state={
-			userURL : '',
-			name:''
-		}
-		this.id = React.createRef();
+			userURL : '',name:''
+			}
+		this.post = new PostValidation();
+		this.commentValidation = new CommentValidation();
+		this.profileCookies = new ProfileCookies();
 		this.editPost = this.editPost.bind(this);
 	}
 	editPost(e)
 	{
-		const post = new PostValidation();
 		var id = event.target.id[event.target.id.length-1];
-		post.getPost(id);
+		this.post.getPost(id);
 	}
 	editComment(e)
 	{
-		const post = new CommentValidation();
 		var id = event.target.id.slice(7);
-		post.getComment(id);
+		this.commentValidation.getComment(id);
 	}
 	componentDidMount()
 	{
-		var username = this.props.userName;
-		const user=firebase.database().ref().child("users").orderByChild("username").equalTo(username);
-		let url = this;
-		user.on('value',snap=>
+		firebase.database().ref().child("users").orderByChild("username").equalTo(this.props.userName).on('value',snap=>
 		{
 			var user=  Object.values(Object(snap.val()))[0];
-			url.setState((state)=>(
+			this.setState((state)=>(
 		 	{
 		 		userURL:user.userURL,
 		 		name:user.name
@@ -49,21 +45,16 @@ class UserInfo extends React.Component
 	}
 	render()
 	{
-		const value = new ProfileCookies();
-      	var username = value.retrieveUserSession();
-      	var edit = false;
       	var button;
-      	if(this.props.userName===username)
-      	{
-      		edit = true;
-      	}
       	if(this.props.type==="post")
       	{
-      		button=<button id={"post"+this.props.postId} onClick={this.editPost} className={edit?'':'hidden'}> Edit </button>
+      		button=<button id={"post"+this.props.postId} onClick={this.editPost} 
+      		className={this.props.userName===this.profileCookies.retrieveUserSession()?'':'hidden'}> Edit </button>
       	}
       	if(this.props.type==="comment")
       	{
-      		button=<button id={"comment"+this.props.commentId} onClick={this.editComment} className={edit?'':'hidden'}> Edit </button>
+      		button=<button id={"comment"+this.props.commentId} onClick={this.editComment}
+      		className={this.props.userName===this.profileCookies.retrieveUserSession()?'':'hidden'}> Edit </button>
       	}
 		return(
 			<div className="postinformation">

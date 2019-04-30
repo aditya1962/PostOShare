@@ -9,7 +9,6 @@ class PasswordEncrypt extends React.Component
 	{
 		var salt = username;
 		var derivedKey = pbkdf2.pbkdf2Sync('password', salt, 1, 128/8, 'sha512');
-
 		var passwordByte = aesjs.utils.utf8.toBytes(password);
 		var aesCbc = new aesjs.ModeOfOperation.ctr(derivedKey);
 		var encryptedBytes = aesCbc.encrypt(passwordByte);
@@ -20,7 +19,6 @@ class PasswordEncrypt extends React.Component
 	{
 		var salt = username;
 		var derivedKey = pbkdf2.pbkdf2Sync('password', salt, 1, 128/8, 'sha512');
-
 		var encryptedBytes = aesjs.utils.hex.toBytes(password);
 		var aesCtr = new aesjs.ModeOfOperation.ctr(derivedKey,new aesjs.Counter(1));
 		var decryptedBytes = aesCtr.decrypt(encryptedBytes);
