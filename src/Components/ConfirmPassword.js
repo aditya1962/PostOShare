@@ -1,4 +1,5 @@
 import React from 'react';
+import {Helmet} from 'react-helmet';
 import {NavLink} from 'react-router-dom';
 import ErrorBoundary from '../Data/ErrorBoundary.js';
 import PasswordEncrypt from '../Data/PasswordEncrypt.js';
@@ -97,6 +98,9 @@ class ConfirmPassword extends React.Component
 	{
 		return(
 			<div className="register">
+			<Helmet>
+				<title> Confirm Password </title>
+			</Helmet>
 			<img className="logoText" src="images/icons/logo.png" alt="logo" />
 			<div className="card">
 				<div className="card-body">

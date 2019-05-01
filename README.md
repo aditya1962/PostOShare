@@ -1,4 +1,5 @@
-<img src="https://raw.githubusercontent.com/aditya1962/PostOShare/master/public/images/icons/logo.png" alt="logo" style="margin:0% 40%">
+<p align="center"><img src="https://raw.githubusercontent.com/aditya1962/PostOShare/master/public/images/icons/logo.png" alt="logo">
+</p>
 
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
 [![React](https://img.shields.io/badge/react-16.8%2B-blue.svg)](https://img.shields.io/badge/react-16.8%2B-blue.svg)

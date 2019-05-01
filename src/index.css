@@ -61,6 +61,10 @@ p
 {
 	color:blue;
 }
+.editButton
+{
+	width:15%;
+}
 .error
 {
 	color:red;
@@ -137,6 +141,11 @@ hr
 .description p
 {
 	text-align:justify;
+}
+.postinformation button{
+	text-align:right;
+	background-color:transparent;
+	border:0;
 }
 
 /*Styles for comments */

@@ -91,6 +91,10 @@ class Post extends React.Component
                 pstDescription:this.state.postText,
                 username:this.logged.retrieveUserSession()
               }
+          var updatedpost={"postContent":post};
+          var currentPosts = this.state.posts;
+          currentPosts.push(updatedpost);
+          this.setState({posts:currentPosts})
           firebase.database().ref('posts/'+ key).set(post);
       }
         ).catch((value)=>console.log(value));

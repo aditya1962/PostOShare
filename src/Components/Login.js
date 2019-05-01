@@ -1,4 +1,5 @@
 import React from 'react';
+import {Helmet} from 'react-helmet'
 import {NavLink,Redirect} from 'react-router-dom';
 import * as firebase from 'firebase';
 import PasswordEncrypt from '../Data/PasswordEncrypt.js';
@@ -82,6 +83,9 @@ class Login extends React.Component
 		}
 		return(
 			<div className="login">
+			<Helmet>
+				<title> Login </title>
+			</Helmet>
 			<img className="logoText" src="images/icons/logo.png" alt="logo" />
 			<div className="card">
 				<div className="card-body">

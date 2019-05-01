@@ -32,7 +32,8 @@ class CommentValidation extends React.Component
     }
 
     updateComment=(text,id,post)=>
-    {      
+    {  
+      document.getElementById(id).parentNode.childNodes[1].classList.add("hidden");    
     	firebase.database().ref().child('comment').orderByChild('commentid').equalTo(id)
       .on("value",(snapshot)=>
       {

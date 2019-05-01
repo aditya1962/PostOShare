@@ -32,6 +32,7 @@ class PostValidation extends React.Component
 
     updatePost=(text,id)=>
     {
+      document.getElementById(id).parentNode.childNodes[1].classList.add("hidden");
     	var post={
         datetime:new Date(),
         edited:"true",
@@ -39,26 +40,6 @@ class PostValidation extends React.Component
         pstDescription:text,
         username:this.profileCookies.retrieveUserSession()
       }
-    	firebase.database().ref().child('posts').orderByChild('postid').equalTo(id)
-    	.on("value",(snapshot)=>
-    	{
-    		snapshot.forEach((child)=>
-    		{
-    			var update={};
-    			update['/posts/'+child.key] = post;
-    			firebase.database().ref().update(update);
-    		})
-    	})
-    }
-    updateComment=(text,id)=>
-    {
-    	var post={
-    		datetime:new Date(),
-    		edited:"true",
-    		postid:id,
-    		pstDescription:text,
-    		username:this.profileCookies.retrieveUserSession()
-    	}
     	firebase.database().ref().child('posts').orderByChild('postid').equalTo(id)
     	.on("value",(snapshot)=>
     	{

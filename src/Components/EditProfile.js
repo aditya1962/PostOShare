@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Helmet} from 'react-helmet';
 import User from './User';
 import ErrorBoundary from '../Data/ErrorBoundary.js';
 import FormValidate from '../Data/FormValidate.js';
@@ -161,6 +161,9 @@ class EditProfile extends React.Component
 	{
 		return(
 			<div className="App">
+				<Helmet>
+					<title> Edit Profile </title>
+				</Helmet>
 				<ErrorBoundary>
 				<User />
 				</ErrorBoundary>

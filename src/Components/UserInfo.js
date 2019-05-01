@@ -17,7 +17,6 @@ class UserInfo extends React.Component
 			userURL : '',name:''
 			}
 		this.post = new PostValidation();
-		this.commentValidation = new CommentValidation();
 		this.profileCookies = new ProfileCookies();
 		this.editPost = this.editPost.bind(this);
 	}
@@ -29,7 +28,8 @@ class UserInfo extends React.Component
 	editComment(e)
 	{
 		var id = event.target.id.slice(7);
-		this.commentValidation.getComment(id);
+		var commentValidation = new CommentValidation();
+		commentValidation.getComment(id);
 	}
 	componentDidMount()
 	{
@@ -48,13 +48,15 @@ class UserInfo extends React.Component
       	var button,edited;
       	if(this.props.type==="post")
       	{
-      		button=<button id={"post"+this.props.postId} onClick={this.editPost} 
-      		className={this.props.userName===this.profileCookies.retrieveUserSession()?'':'hidden'}> Edit </button>
+      		button=<button onClick={this.editPost} 
+      		className={this.props.userName===this.profileCookies.retrieveUserSession()?'':'hidden'} > 
+      		<img id={"post"+this.props.postId}  src="/images/icons/edit.png" className="editButton" alt="editPost"/></button>
       	}
       	if(this.props.type==="comment")
       	{
-      		button=<button id={"comment"+this.props.commentId} onClick={this.editComment}
-      		className={this.props.userName===this.profileCookies.retrieveUserSession()?'':'hidden'}> Edit </button>
+      		button=<button onClick={this.editComment}
+      		className="{this.props.userName===this.profileCookies.retrieveUserSession()?'':'hidden'} editButtonbtn"> 
+      		<img id={"comment"+this.props.commentId}  src="/images/icons/edit.png" className="editButton" alt="editComment"/> </button>
       	}
       	if(this.props.edited===true)
       	{
