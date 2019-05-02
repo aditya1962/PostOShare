@@ -22,12 +22,12 @@ class UserInfo extends React.Component
 	}
 	editPost(e)
 	{
-		var id = event.target.id[event.target.id.length-1];
+		var id = event.target.id;
 		this.post.getPost(id);
 	}
 	editComment(e)
 	{
-		var id = event.target.id.slice(7);
+		var id = event.target.id;
 		var commentValidation = new CommentValidation();
 		commentValidation.getComment(id);
 	}
@@ -45,23 +45,24 @@ class UserInfo extends React.Component
 	}
 	render()
 	{
-      	var button,edited;
+      	var button,edited="";
       	if(this.props.type==="post")
       	{
       		button=<button onClick={this.editPost} 
       		className={this.props.userName===this.profileCookies.retrieveUserSession()?'':'hidden'} > 
-      		<img id={"post"+this.props.postId}  src="/images/icons/edit.png" className="editButton" alt="editPost"/></button>
+      		<img id={this.props.postId}  src="/images/icons/edit.png" className="editButton" alt="editPost"/></button>
       	}
       	if(this.props.type==="comment")
       	{
       		button=<button onClick={this.editComment}
       		className="{this.props.userName===this.profileCookies.retrieveUserSession()?'':'hidden'} editButtonbtn"> 
-      		<img id={"comment"+this.props.commentId}  src="/images/icons/edit.png" className="editButton" alt="editComment"/> </button>
+      		<img id={this.props.commentId}  src="/images/icons/edit.png" className="editButton" alt="editComment"/> </button>
       	}
-      	if(this.props.edited===true)
+      	if(this.props.edited==="true")
       	{
       		edited="Edited";
       	}
+      	console.log(this.props.edited);
 		return(
 			<ErrorBoundary>
 			<div className="postinformation">

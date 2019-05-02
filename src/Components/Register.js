@@ -12,7 +12,8 @@ class Register extends React.Component
 	{
 		super(props);
 		this.state={
-			username:"", password:"", confirmPassword:"", usernameValid:"", passwordValid:"", confirmPasswordValid:""
+			username:"", password:"", confirmPassword:"", usernameValid:"", passwordValid:"", confirmPasswordValid:"",
+			checked:false,submitted:false,registered:""
 				}
 		this.formValidate = new FormValidate();
 		this.passwordEncrypt = new PasswordEncrypt();
@@ -54,19 +55,22 @@ class Register extends React.Component
 
 	checkUser()
 	{
-		try{
-			firebase.database().ref().child('login').orderByChild("username").equalTo(this.state.username).on("value",snapshot=>
-			{
-				if(snapshot.val()!==null)
-				{
-					this.setState({usernameValid:"Username not available"})
-				}
-				})
-		}
-		catch(e)
-		{
-			alert("Could not validate user. Please check your internet connection");
-		}
+		var username = this.state.username;
+		let user = this;
+			return new Promise(function(resolve,reject){
+				firebase.database().ref().child('login').orderByChild("username").equalTo(username).on("value",snapshot=>
+				{			
+					var valid						
+					if(snapshot.val()!==null && user.state.checked===false)
+					{
+						user.setState({usernameValid:"Username not available"})
+						valid=false;
+					}
+					user.setState({checked:true});
+					resolve(valid);
+					})
+				
+			})
 	}
 
 	getNewUserKey()
@@ -75,7 +79,7 @@ class Register extends React.Component
 		      firebase.database().ref().child("users").orderByChild("username").on("value",snapshot=>
 		      {
 		        var keys = Object.keys(snapshot.val());
-		        var value = keys[keys.length-1];     
+		        var value = keys[keys.length-1];    
 		        resolve("user"+(parseInt(value[value.length-1])+1));
 		      }) 
 		    })
@@ -93,25 +97,34 @@ class Register extends React.Component
 			}
 			firebase.database().ref('users/'+key).set(user);
 			firebase.database().ref('login/'+key).set(login);
+			this.setState({registered:"User Registered"})
 		})
 	}
 
 	handleSubmit(event)
 	{
 		event.preventDefault();
+		this.checkFields();
 		var error = this.formValidate.getError();
 		if(error.length===0)
 		{
-			this.checkUser();
-			if(this.state.usernameValid!=="Username not available")
-			{
-				this.register();
-			}
+			this.checkUser().then((resolve)=>{
+				if(resolve===undefined)
+					{
+						this.register()
+					}
+				})			
 		}
 	}
 
 	render()
 	{
+		var registered;
+		if(this.state.registered==="User Registered")
+		{
+			registered=this.state.registered;
+			document.getElementById("register").classList.remove("hidden");		
+		}
 		return(
 			<div className="register">
 			<Helmet>
@@ -156,6 +169,7 @@ class Register extends React.Component
 							type="submit"> Login </button></NavLink>
 						</div>
 					</form>
+					<div id="register" className="hidden userCreated"> {registered} </div>
 					</ErrorBoundary>
 				</div>
 			</div>

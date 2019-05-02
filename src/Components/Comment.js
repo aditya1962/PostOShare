@@ -90,14 +90,15 @@ class Comment extends React.Component
 	submitComment(event)
 	{
 	  event.preventDefault();
-      var id = event.target.id.slice(6);
-      var text = document.getElementById(id).innerHTML;
+      var id = event.target.id;
+      var element = "comment"+id[id.length-1];
+      var text = document.getElementById(element).innerHTML;
 
       if(this.logged.isLoggedIn()===true)
       {
-	      this.commentV.updateComment(text,id,this.props.postid);
+	      this.commentV.updateComment(text,id[id.length-1],this.props.postid);
   	  }
-      document.getElementById(id).contentEditable="false";
+      
 	}
 
 	handleSubmit(event)
@@ -134,6 +135,7 @@ class Comment extends React.Component
 				<div>
 				{
        				commentsArr.map((comment,index)=>
+
        				<div className="comment" key={index}>
 	       				<div className="flexDiv">
 	       					<ErrorBoundary>
@@ -145,7 +147,7 @@ class Comment extends React.Component
 						</div>
 						<div className = "description">
 								<ErrorBoundary>
-	                              <p id={comment.commentid} contentEditable="false" suppressContentEditableWarning="true"> {comment.description.replace(/&nbsp;/g, " ")} </p>
+	                              <p id={"comment"+comment.commentid} contentEditable="false" suppressContentEditableWarning="true"> {comment.description.replace(/&nbsp;/g, " ")} </p>
 	                              <button id={"submit"+comment.commentid} onClick={this.submitComment} className="btn btn-primary hidden"> Submit </button>
 	                    		</ErrorBoundary>
 	                    </div>

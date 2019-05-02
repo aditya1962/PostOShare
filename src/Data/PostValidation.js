@@ -25,28 +25,42 @@ class PostValidation extends React.Component
 
     getPost=(id)=>
     {
-      var post = document.getElementById(id);
-      document.getElementById(id).contentEditable="true";
-      post.parentNode.childNodes[1].classList.remove("hidden");
+      var element = "post"+id;
+      document.getElementById(element).contentEditable="true";
+      document.getElementById(element).parentNode.childNodes[1].classList.remove("hidden");
     }
 
-    updatePost=(text,id)=>
+    post=(text,id)=>
     {
-      document.getElementById(id).parentNode.childNodes[1].classList.add("hidden");
-    	var post={
-        datetime:new Date(),
+      var postDate = new Date();
+      var dateString = postDate.getFullYear()+"/"+(postDate.getMonth()+1)+"/"+postDate.getDate()+" "
+                      +postDate.getHours()+":"+postDate.getMinutes()+":"+postDate.getSeconds();
+      var post={
+        datetime:dateString,
         edited:"true",
         postid:id,
         pstDescription:text,
         username:this.profileCookies.retrieveUserSession()
       }
+      return post;
+    }
+
+
+    updatePost=(text,id)=>
+    {
+
+      var element = "post"+id;
+      document.getElementById(element).contentEditable="false";
+      document.getElementById(element).parentNode.childNodes[1].classList.add("hidden"); 
+
+    	
     	firebase.database().ref().child('posts').orderByChild('postid').equalTo(id)
     	.on("value",(snapshot)=>
     	{
     		snapshot.forEach((child)=>
     		{
     			var update={};
-    			update['/posts/'+child.key] = post;
+    			update['/posts/'+child.key] = this.post(text,id);
     			firebase.database().ref().update(update);
     		})
     	})

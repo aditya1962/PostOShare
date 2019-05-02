@@ -86,7 +86,7 @@ class Post extends React.Component
                           +date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();  
           var post={
                 datetime:dateString,
-                edited:false,
+                edited:"false",
                 postid:parseInt(key[key.length-1]),
                 pstDescription:this.state.postText,
                 username:this.logged.retrieveUserSession()
@@ -104,12 +104,13 @@ class Post extends React.Component
     submitPost(event)
     {
       event.preventDefault();
-      var id = event.target.id[event.target.id.length-1];
-      var text = document.getElementById(id).innerHTML;
+      var id = event.target.id;
+      var postid = "post"+id[id.length-1];
+      var text = document.getElementById(postid).innerHTML;
       
       if(this.logged.isLoggedIn()===true)
       {
-        this.postV.updatePost(text,id);
+        this.postV.updatePost(text,id[id.length-1]);
       }
       document.getElementById(id).contentEditable="false";
     }
@@ -146,7 +147,7 @@ class Post extends React.Component
          </div>
          <div className = "description">
          <ErrorBoundary>
-         <p id={post.postContent.postid} contentEditable="false" suppressContentEditableWarning="true"> {post.postContent.pstDescription.replace(/&nbsp;/g, " ")} </p>
+         <p id={"post"+post.postContent.postid} contentEditable="false" suppressContentEditableWarning="true"> {post.postContent.pstDescription.replace(/&nbsp;/g, " ")} </p>
          <button id={"submit"+post.postContent.postid} onClick={this.submitPost} className="btn btn-primary hidden"> Submit </button>
          </ErrorBoundary>
          </div>

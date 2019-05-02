@@ -13,13 +13,13 @@ class EditProfile extends React.Component
 	{
 		super(props);
 		this.profileCookies = new ProfileCookies();
+		this.userName = this.profileCookies.retrieveUserSession();
 		this.passwordEncrypt = new PasswordEncrypt ();
 		this.formValidate = new FormValidate();
 		this.formValidate.initializeError();
-		this.userName = this.profileCookies.retrieveUserSession();
 		this.state={
 			email:"", password1:"", password2:"", name:"", qualification:"", university:"",
-			employment:"", employer:"", married:"", dob:"",
+			employment:"", employer:"", married:"", dob:"",updated:"",
 			emailValid:"", password1Valid:"", password2Valid:"", nameValid:"",
 			qualificationValid:"", universityValid:"", employmentValid:"",
 			employerValid:"", marriedValid:"", dobValid:"", error:""
@@ -82,13 +82,20 @@ class EditProfile extends React.Component
 	{
 		this.setState({dob:event.target.value, dobValid:this.formValidate.dob(event.target.value)})
 	}
+	componentDidMount()
+	{
+		firebase.database().ref().child('users').orderByChild('username').equalTo(this.userName)
+		.on("value",(snapshot)=>
+		{
+			var values = Object.values(snapshot.val())[0];
+			this.setState({
+				email:values.email, name:values.name, qualification:values.qualification,
+				university:values.university,employment:values.employment, employer:values.employer, dob:values.dob
+			})
+		})
+	}
 	checkFields()
 	{
-		if(this.state.password1!==this.state.password2) 
-		{
-			this.setState({ password2Valid:"Password and Confirm Password do not match" })
-		}
-		
 		this.setState(
 		{
 			emailValid:this.formValidate.email(this.state.email),
@@ -144,14 +151,19 @@ class EditProfile extends React.Component
 							firebase.database().ref().update(update);
 						})
 		});
+		this.setState({updated:"Profile Updated"})
 	}
 	handleSubmit(event)
 	{
 		event.preventDefault();
 		this.formValidate.initializeError();
 		this.checkFields();
+		if(this.state.password1!==this.state.password2) 
+		{
+			this.setState({ password2Valid:"Password and Confirm Password do not match" })
+		}
 		var errors = this.formValidate.getError();
-		if(errors.length===0)
+		if(errors.length===0 && this.state.password2Valid==="")
 		{
 			this.update()
 		}
@@ -159,6 +171,13 @@ class EditProfile extends React.Component
 	}
 	render()
 	{
+		var updated;
+		if(this.state.updated==="Profile Updated" && this.state.password2Valid==="")
+		{
+			updated=this.state.updated;
+			document.getElementById("editprofile").classList.remove("hidden");		
+		}
+
 		return(
 			<div className="App">
 				<Helmet>
@@ -194,7 +213,7 @@ class EditProfile extends React.Component
 								<label> Password :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="password1" type="text" placeholder="Enter New Password" onChange={this.handleChangePassword1} value={this.state.password1}/>
+								<input className="form-control" name="password1" type="password" placeholder="Enter New Password" onChange={this.handleChangePassword1} value={this.state.password1}/>
 								<div className="error"><p>{this.state.password1Valid}</p></div>
 							</div>
 						</div>
@@ -203,7 +222,7 @@ class EditProfile extends React.Component
 								<label> Confirm Password :  </label>
 							</div>
 							<div className="formelement">
-								<input className="form-control" name="password2" type="text" placeholder="Confirm New Password" onChange={this.handleChangePassword2} value={this.state.password2}/>
+								<input className="form-control" name="password2" type="password" placeholder="Confirm New Password" onChange={this.handleChangePassword2} value={this.state.password2}/>
 								<div className="error"><p>{this.state.password2Valid}</p></div>
 							</div>
 						</div>
@@ -284,6 +303,7 @@ class EditProfile extends React.Component
 							<button className="btn btn-primary update cancelEdit"> <a href="/">Cancel Changes </a></button>
 						</div>
 						</form>
+						<div id="editprofile" className="hidden userUpdated"> {updated} </div>
 						</ErrorBoundary>
 					</div>
 				</div>

@@ -60,6 +60,7 @@ p
 .edited
 {
 	color:blue;
+	text-align:right;
 }
 .editButton
 {
@@ -306,4 +307,10 @@ hr
 	color:red;
 	text-align:center;
 	margin:0% 0% 3% 0%;
+}
+.userCreated,.passwordUpdate, .userUpdated
+{
+	text-align:center;
+	padding:1% 0%;
+	background-color:#d4edda;
 }

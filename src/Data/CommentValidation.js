@@ -11,8 +11,9 @@ class CommentValidation extends React.Component
     }
     getComment=(id)=>
     {
-      document.getElementById(id).contentEditable="true";
-      document.getElementById(id).parentNode.childNodes[1].classList.remove("hidden");
+      var element = "comment"+id;
+      document.getElementById(element).contentEditable="true";
+      document.getElementById(element).parentNode.childNodes[1].classList.remove("hidden");
     }
 
     comment=(text,id,post)=>
@@ -33,7 +34,9 @@ class CommentValidation extends React.Component
 
     updateComment=(text,id,post)=>
     {  
-      document.getElementById(id).parentNode.childNodes[1].classList.add("hidden");    
+      var element = "comment"+id;
+      document.getElementById(element).contentEditable="false";
+      document.getElementById(element).parentNode.childNodes[1].classList.add("hidden");  
     	firebase.database().ref().child('comment').orderByChild('commentid').equalTo(id)
       .on("value",(snapshot)=>
       {

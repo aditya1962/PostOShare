@@ -12,7 +12,7 @@ class ConfirmPassword extends React.Component
 	{
 		super(props);
 		this.state={
-			username:"", password:"", confirmPassword:"", usernameValid:"", passwordValid:"", confirmPasswordValid:""
+			username:"", password:"", confirmPassword:"", usernameValid:"", passwordValid:"", confirmPasswordValid:"",updated:""
 			}
 		this.passwordEncrypt = new PasswordEncrypt();
 		this.formValidate = new FormValidate();
@@ -53,34 +53,58 @@ class ConfirmPassword extends React.Component
 
 	validateUsername()
 	{
-		firebase.database().ref().child('login').orderByChild("username").equalTo(this.state.username).on("value",(snapshot)=>
-		{
-				if(snapshot.val()===null)
-				{
-					this.setState({usernameValid:"Username does not exist"})				
-				}
+
+		let data = this;
+		var username = this.state.username;
+		return new Promise(function(resolve,reject){
+			var valid=true;
+			firebase.database().ref().child('login').orderByChild("username").equalTo(username).on("value",(snapshot)=>
+			{
+					if(snapshot.val()===null)
+					{
+						data.setState({usernameValid:"Username does not exist"});
+						valid=false;			
+					}
+					resolve(valid);
+			})
 		})
 	}
 
+	getUser()
+	{
+		var username = this.state.username;
+		return new Promise(function(resolve,reject){
+		      firebase.database().ref().child("users").orderByChild("username").equalTo(username).on("value",snapshot=>
+		      {
+		        resolve(snapshot.val());
+		        
+		      }) 
+		    })
+	}
+
+	updatePassword()
+	{
+		
+		this.getUser().then((resolve)=>{
+			var user={
+					username:this.state.username,
+					email:Object.values(resolve)[0].email,
+					password:this.passwordEncrypt.encrypt(this.state.password,this.state.username)
+				}
+			firebase.database().ref('login/'+Object.keys(resolve)).set(user);
+			this.setState({updated:"Password Updated"})
+		});
+				
+	}
 
 	resetPassword()
 	{
-		this.validateUsername();
-		if(this.state.usernameValid==="Username does not exist")
-		{
-			var user={
-				username:this.state.username,
-				password:this.passwordEncrypt.encrypt(this.state.password,this.state.username)
-			}
-			try
+		this.validateUsername().then((resolve)=>{
+			if(resolve===true)
 			{
-				firebase.database().ref('login/'+this.state.username).set(user);
+				this.updatePassword();
 			}
-			catch(e)
-			{
-				alert("Could not reset password. Please check your internet connection");
-			}
-		}
+		});
 	}
 
 	handleSubmit(event)
@@ -96,6 +120,12 @@ class ConfirmPassword extends React.Component
 
 	render()
 	{
+		var updated;
+		if(this.state.updated==="Password Updated")
+		{
+			updated=this.state.updated;
+			document.getElementById("confirmpassword").classList.remove("hidden");		
+		}
 		return(
 			<div className="register">
 			<Helmet>
@@ -140,6 +170,7 @@ class ConfirmPassword extends React.Component
 							type="submit"> Login </button></NavLink>
 						</div>
 					</form>
+					<div id="confirmpassword" className="hidden passwordUpdate"> {updated} </div>
 					</ErrorBoundary>
 				</div>
 			</div>
