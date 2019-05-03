@@ -62,7 +62,6 @@ class UserInfo extends React.Component
       	{
       		edited="Edited";
       	}
-      	console.log(this.props.edited);
 		return(
 			<ErrorBoundary>
 			<div className="postinformation">

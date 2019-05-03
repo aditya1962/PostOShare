@@ -60,7 +60,7 @@ class Register extends React.Component
 			return new Promise(function(resolve,reject){
 				firebase.database().ref().child('login').orderByChild("username").equalTo(username).on("value",snapshot=>
 				{			
-					var valid						
+					var valid=true;						
 					if(snapshot.val()!==null && user.state.checked===false)
 					{
 						user.setState({usernameValid:"Username not available"})
@@ -109,7 +109,7 @@ class Register extends React.Component
 		if(error.length===0)
 		{
 			this.checkUser().then((resolve)=>{
-				if(resolve===undefined)
+				if(resolve===true)
 					{
 						this.register()
 					}
