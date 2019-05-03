@@ -21,7 +21,7 @@
 The lastest version of PostOShare can be installed by npm.
 
 ```sh
-	git clone https://github.com/aditya1962/PostOShare.git
+    git clone https://github.com/aditya1962/PostOShare.git
     
     cd PostOShare
     
@@ -35,15 +35,28 @@ The lastest version of PostOShare can be installed by npm.
 
 PostOShare requires users to be logged in to continue. Therefore, a user should first register at the <a href="/Register">Register</a> page. 
 
-Once registered a user can either <a href="/Login">login </a> or <a href="/ConfirmPassword">change the password</a>. Since PostOShare currently does not use a server environment for server side processing, a confirmation mail is not currently sent to the user. Also, the username of a username CANNOT be changed once registered. 
+Once registered a user can either <a href="/Login">login </a> or <a href="/ConfirmPassword">change the password</a>. 
+
+<p align="center"><img src="https://github.com/aditya1962/PostOShare/blob/master/public/images/readme/Login.gif" alt="Login" style="margin:0% 15%;"/></p><p align="center"> Fig 1: Login </p>
+
+<p align="center"><img src="https://github.com/aditya1962/PostOShare/blob/master/public/images/readme/Confirm%20Password.gif" alt="Confirm Password" style="margin:0% 15%;"/></p><p align="center"> Fig 2:Confirm Password </p>
+
+Since PostOShare currently does not use a server environment for server side processing, a confirmation mail is not currently sent to the user. Also, the username of a username CANNOT be changed once registered. 
 
 An authorized user will be redirected to the <a href="/">Home </a> component. Here the user has the ability to post posts and comments.
 
+<p align="center"><img src="https://github.com/aditya1962/PostOShare/blob/master/public/images/readme/Add%20Post.gif" alt="Add Post" style="margin:0% 15%;"/></p><p align="center"> Fig 3: Add Post </p>
+
+
 An authorized user also has the ability to edit posts and/or comments posted by them. If a post is edited an Edited flag will be shown on top of the time.
+
+<p align="center"><img src="https://github.com/aditya1962/PostOShare/blob/master/public/images/readme/Edit%20Post.gif" alt="Edit Post" style="margin:0% 15%;"/></p><p align="center"> Fig 4: Edit Post </p>
 
 The left side panel displays details of the user. These will be set only after the user has edited their profile.
 
 To edit a profile, hover over the profile icon at the top row and click <a href="/editprofile">Edit Profile </a>. 
+
+<p align="center"><img src="https://github.com/aditya1962/PostOShare/blob/master/public/images/readme/Edit.PNG" alt="Edit" style="margin:0% 15%;"/></p><p align="center"> Fig 5: Edit Profile </p>
 
 The Edit Profile component is divided into two sections: login related data and user related data. Once all the data are filled the user can edit the profile. Currently, PostOShare does not allow uploading a profile picture. Therefore, the profile picture will be set to default.
 
