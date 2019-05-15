@@ -8,7 +8,7 @@
 
 ## Basic Overview
 
-<a href="https://github.com/aditya1962/PostOShare/">PostOShare </a>is a social media sharing app where registered users can post posts and comments. The app uses <a href="https://reactjs.org/">React </a>as the UI render and a <a href="https://firebase.google.com">Firebase </a> as the database model.
+<a href="https://github.com/aditya1962/PostOShare/">PostOShare </a>is a social media sharing app where registered users can post posts and comments. The app uses <a href="https://reactjs.org/">React </a>as the UI render and <a href="https://firebase.google.com">Firebase </a> as the database model.
 
 ## Table of Contents
 * <a href="#installation">Installation</a>
