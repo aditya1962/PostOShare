@@ -15,6 +15,7 @@
 * <a href="#basic-usage">Basic Usage</a>
 * <a href="#session-control">Session Control</a>
 * <a href="#encryption">Encryption</a>
+* <a href="#license"> License </a>
 
 <h3 id="installation">Installation </h3>
 
@@ -82,5 +83,7 @@ The username will be stored in the cookie and this is used for session control i
 
 PostOShare uses AES 128 to encrypt and decrypt passwords. The encryption and decryption process are based on AES Counter Mode (CTR). A derived key is used using the pbkdf2 library based on username as the salt.
 
+<h3 id="license"> License </h3>
 
+PostOShare uses <a href="https://github.com/aditya1962/PostOShare/blob/master/LICENSE"> MIT </a>License. 
 
