@@ -11,9 +11,6 @@ class Login extends React.Component
 	{
 		super(props);
 		this.PasswordHash = new PasswordHash();
-		console.log(this.PasswordHash.hash256("abc@"));
-		console.log(this.PasswordHash.hash256("name3@"));
-		console.log(this.PasswordHash.hash256("name4@"));
 		this.sessionNew = new ProfileCookies();
 		this.state={
 			username:"", password:"", authenticate:false, usernameValid:"", passwordValid:""
