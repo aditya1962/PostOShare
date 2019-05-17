@@ -2,7 +2,7 @@ import React from 'react';
 import {Helmet} from 'react-helmet';
 import {NavLink} from 'react-router-dom';
 import ErrorBoundary from '../Data/ErrorBoundary.js';
-import PasswordEncrypt from '../Data/PasswordEncrypt.js';
+import PasswordHash from '../Data/PasswordHash.js';
 import FormValidate from '../Data/FormValidate.js';
 import * as firebase from 'firebase';
 
@@ -14,7 +14,7 @@ class ConfirmPassword extends React.Component
 		this.state={
 			username:"", password:"", confirmPassword:"", usernameValid:"", passwordValid:"", confirmPasswordValid:"",updated:""
 			}
-		this.passwordEncrypt = new PasswordEncrypt();
+		this.PasswordHash = new PasswordHash();
 		this.formValidate = new FormValidate();
 		this.handleUsername = this.handleUsername.bind(this);
 		this.handlePassword = this.handlePassword.bind(this);
@@ -89,7 +89,7 @@ class ConfirmPassword extends React.Component
 			var user={
 					username:this.state.username,
 					email:Object.values(resolve)[0].email,
-					password:this.passwordEncrypt.encrypt(this.state.password,this.state.username)
+					password:this.PasswordHash.hash256(this.state.password)
 				}
 			firebase.database().ref('login/'+Object.keys(resolve)).set(user);
 			this.setState({updated:"Password Updated"})

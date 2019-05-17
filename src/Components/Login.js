@@ -2,7 +2,7 @@ import React from 'react';
 import {Helmet} from 'react-helmet'
 import {NavLink,Redirect} from 'react-router-dom';
 import * as firebase from 'firebase';
-import PasswordEncrypt from '../Data/PasswordEncrypt.js';
+import PasswordHash from '../Data/PasswordHash.js';
 import ProfileCookies from '../Data/ProfileCookies.js';
 
 class Login extends React.Component
@@ -10,7 +10,10 @@ class Login extends React.Component
 	constructor(props)
 	{
 		super(props);
-		this.passwordEncrypt = new PasswordEncrypt();
+		this.PasswordHash = new PasswordHash();
+		console.log(this.PasswordHash.hash256("abc@"));
+		console.log(this.PasswordHash.hash256("name3@"));
+		console.log(this.PasswordHash.hash256("name4@"));
 		this.sessionNew = new ProfileCookies();
 		this.state={
 			username:"", password:"", authenticate:false, usernameValid:"", passwordValid:""
@@ -48,8 +51,9 @@ class Login extends React.Component
 			{
 				if(snapshot.val()!==null)
 				{
-					var password = this.passwordEncrypt.decrypt(Object.values(snapshot.val())[0].password,this.state.username);
-					if(password===this.state.password)
+					var passwordDatabase = Object.values(snapshot.val())[0].password;
+					var passwordUser = this.PasswordHash.hash256(this.state.password);
+					if(passwordUser===passwordDatabase)
 					{
 						this.setState({authenticate:true})
 					}

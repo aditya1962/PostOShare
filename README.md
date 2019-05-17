@@ -6,6 +6,8 @@
 [![GitHub Issues](https://img.shields.io/github/issues/aditya1962/PostOShare.svg)](https://github.com/aditya1962/PostOShare/issues)
 [![GitHub MIT](https://img.shields.io/github/license/aditya1962/PostOShare.svg)](https://github.com/aditya1962/PostOShare/blob/master/LICENSE)
 
+<b> NEW: v1.1.0 (current) now uses hashing to ensure password confidentiality</b>
+
 ## Basic Overview
 
 <a href="https://github.com/aditya1962/PostOShare/">PostOShare </a>is a social media sharing app where registered users can post posts and comments. The app uses <a href="https://reactjs.org/">React </a>as the UI render and <a href="https://firebase.google.com">Firebase </a> as the database model.
@@ -15,7 +17,7 @@
 * <a href="#db"> Database </a>
 * <a href="#basic-usage">Basic Usage</a>
 * <a href="#session-control">Session Control</a>
-* <a href="#encryption">Encryption</a>
+* <a href="#hashing">Hashing</a>
 * <a href="#contributions"> Contributing to PostOShare </a>
 * <a href="#license"> License </a>
 
@@ -36,7 +38,7 @@ The lastest version of PostOShare can be installed by npm.
 
 <h3 id="db"> Database </h3>
 
-PostOShare uses Firebase realtime database. Database is hosted at <a href="https://social-media-post.firebaseio.com">https://social-media-post.firebaseio.com</a> Configuration details is implemented in <a href="https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js">https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js</a>
+PostOShare uses Firebase realtime database. Database is hosted at <a href="https://social-media-post.firebaseio.com">https://social-media-post.firebaseio.com</a>. Configuration details is implemented in <a href="https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js">https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js</a>.
 
 ```javascript
 ...
@@ -54,25 +56,25 @@ var config = {
 
 The initial database is exported and hosted as database-export.json <a href="https://github.com/aditya1962/PostOShare/blob/master/database-export.json">in the root directory</a>.
 
-<b>CAUTION: Do not use the passwords in the following snippet to log in as they are encrypted. Instead register if you are using first time and log in</b>
+<b>CAUTION: Do not use the passwords in the following snippet to log in as they are hashed. Instead register if you are using first time and login</b>
 
 ```javascript
 
 "login" : {
-    //password values in these JavaScript objects are encrypted
+    //password values in these JavaScript objects are hashed
     "user2" : {
       "email" : "anash142@yahoo.com",
-      "password" : "dc8e9712",
+      "password" : "67bf55df5c66508e9bf7849958d34f072b3aa9f90b8c2b12477bd855a8ad5fd7",
       "username" : "anash142"
     },
     "user3" : {
       "email" : "ruwinsa34@hotmail.com",
-      "password" : "name3@",
+      "password" : "8bf70e0a2f48b13626d54bc5d8c3c906c0996a1c8f56a779b060d70d995ab900",
       "username" : "erandi@14"
     },
     "user4" : {
       "email" : "manashich45@gmail.com",
-      "password" : "name4@",
+      "password" : "575cf4c024b54b3a9bd7f8ea1b3b50b8e6c3b2da1da591fba559c58a55a126d2",
       "username" : "manashi82"
     }
   }
@@ -128,9 +130,9 @@ Sessions in the app are controlled using JavaScript cookies. A cookie is set for
 The username will be stored in the cookie and this is used for session control in the app. After 100 seconds of logged in the user will be logged out. 
 
 
-<h3 id="encryption">Encryption</h3>
+<h3 id="hashing">Hashing</h3>
 
-PostOShare uses AES 128 to encrypt and decrypt passwords. The encryption and decryption process are based on AES Counter Mode (CTR). A derived key is used using the pbkdf2 library based on username as the salt.
+PostOShare uses SHA 256 to hash passwords. 
 
 <h3 id="contributions"> Contributing to PostOShare </h3>
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {Helmet} from 'react-helmet';
 import {NavLink} from 'react-router-dom';
 import ErrorBoundary from '../Data/ErrorBoundary.js';
-import PasswordEncrypt from '../Data/PasswordEncrypt.js';
+import PasswordHash from '../Data/PasswordHash.js';
 import FormValidate from '../Data/FormValidate.js';
 import * as firebase from 'firebase';
 
@@ -16,7 +16,7 @@ class Register extends React.Component
 			checked:false,submitted:false,registered:""
 				}
 		this.formValidate = new FormValidate();
-		this.passwordEncrypt = new PasswordEncrypt();
+		this.PasswordHash = new PasswordHash();
 		this.handleUsername = this.handleUsername.bind(this);
 		this.handlePassword = this.handlePassword.bind(this);
 		this.handleConfirm = this.handleConfirm.bind(this);
@@ -90,7 +90,7 @@ class Register extends React.Component
 		this.getNewUserKey().then((key)=>{
 			var login={
 				username:this.state.username,
-				password:this.passwordEncrypt.encrypt(this.state.password,this.state.username)
+				password:this.PasswordHash.hash256(this.state.password)
 			}
 			var user={
 				username:this.state.username

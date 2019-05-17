@@ -3,7 +3,7 @@ import {Helmet} from 'react-helmet';
 import User from './User';
 import ErrorBoundary from '../Data/ErrorBoundary.js';
 import FormValidate from '../Data/FormValidate.js';
-import PasswordEncrypt from '../Data/PasswordEncrypt.js';
+import PasswordHash from '../Data/PasswordHash.js';
 import ProfileCookies from '../Data/ProfileCookies.js';
 import * as firebase from 'firebase';
 
@@ -14,7 +14,7 @@ class EditProfile extends React.Component
 		super(props);
 		this.profileCookies = new ProfileCookies();
 		this.userName = this.profileCookies.retrieveUserSession();
-		this.passwordEncrypt = new PasswordEncrypt ();
+		this.PasswordHash = new PasswordHash ();
 		this.formValidate = new FormValidate();
 		this.formValidate.initializeError();
 		this.state={
@@ -129,7 +129,7 @@ class EditProfile extends React.Component
 		}
 		values[1] = 
 		{
-			password:this.passwordEncrypt.encrypt(this.state.password1,this.userName),
+			password:this.PasswordHash.hash256(this.state.password1),
 			email:this.state.email,
 			username:this.userName
 		}
