@@ -17,16 +17,16 @@ To clone the repo locally:
 
 
 ```bash
-	#Using a command prompt (terminal) cd to a directory to clone
+    #Using a command prompt (terminal) cd to a directory to clone
     #and then
-	git clone https://github.com/aditya1962/PostOShare.git
+    git clone https://github.com/aditya1962/PostOShare.git
     cd PostOShare
 ```
 
 Then install dependencies and start react
 
 ```bash
-	npm install
+    npm install
     npm start
 ```
 
