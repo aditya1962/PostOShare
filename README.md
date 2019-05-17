@@ -84,7 +84,7 @@ The username will be stored in the cookie and this is used for session control i
 
 PostOShare uses AES 128 to encrypt and decrypt passwords. The encryption and decryption process are based on AES Counter Mode (CTR). A derived key is used using the pbkdf2 library based on username as the salt.
 
-<h3 id="contributions"> Contributing to PostOShare </a>
+<h3 id="contributions"> Contributing to PostOShare </h3>
 
 Contributing guidelines to PostOShare can be found in <a href="https://github.com/aditya1962/PostOShare/blob/contributing/contribution.md"> contributing to PostOShare </a>
 
