@@ -12,6 +12,7 @@
 
 ## Table of Contents
 * <a href="#installation">Installation</a>
+* <a href="#db"> Database </a>
 * <a href="#basic-usage">Basic Usage</a>
 * <a href="#session-control">Session Control</a>
 * <a href="#encryption">Encryption</a>
@@ -32,6 +33,53 @@ The lastest version of PostOShare can be installed by npm.
     npm start
 
 ```
+
+<h3 id="db"> Database </h3>
+
+PostOShare uses Firebase realtime database. Database is hosted at <a href="https://social-media-post.firebaseio.com">https://social-media-post.firebaseio.com</a> Configuration details is implemented in <a href="https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js">https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js</a>
+
+```javascript
+...
+var config = {
+    apiKey: "AIzaSyC0x7BDINL1BvNA_sKWK7Zr4YojFdePEik",
+    authDomain: "social-media-post.firebaseapp.com",
+    databaseURL: "https://social-media-post.firebaseio.com",
+    projectId: "social-media-post",
+    storageBucket: "social-media-post.appspot.com",
+    messagingSenderId: "136183787820"
+  };
+...
+
+```
+
+The initial database is exported and hosted as database-export.json <a href="https://github.com/aditya1962/PostOShare/blob/master/database-export.json">in the root directory</a>.
+
+<b>CAUTION: Do not use the passwords in the following snippet to log in as they are encrypted. Instead register if you are using first time and log in</b>
+
+```javascript
+
+"login" : {
+    //password values in these JavaScript objects are encrypted
+    "user2" : {
+      "email" : "anash142@yahoo.com",
+      "password" : "dc8e9712",
+      "username" : "anash142"
+    },
+    "user3" : {
+      "email" : "ruwinsa34@hotmail.com",
+      "password" : "name3@",
+      "username" : "erandi@14"
+    },
+    "user4" : {
+      "email" : "manashich45@gmail.com",
+      "password" : "name4@",
+      "username" : "manashi82"
+    }
+  }
+  
+``` 
+
+<b>CAUTION: Do not modify existing javascript objects in "login" object and "user" object in the initial database (as in <a href="https://github.com/aditya1962/PostOShare/blob/master/database-export.json">https://github.com/aditya1962/PostOShare/blob/master/database-export.json</a> ) as this may cause the app to crash</b>
 
 <h3 id="basic-usage">Basic Usage</h3>
 
