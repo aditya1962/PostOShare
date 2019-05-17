@@ -1,0 +1,93 @@
+{
+  "comment" : {
+    "comment1" : {
+      "commentid" : "1",
+      "datetime" : "2019/5/2 20:47:14",
+      "description" : "jljkljkl",
+      "edited" : "true",
+      "postid" : "1",
+      "username" : "anash142"
+    }
+  },
+  "login" : {
+    "user2" : {
+      "email" : "anash142@yahoo.com",
+      "password" : "dc8e9712",
+      "username" : "anash142"
+    },
+    "user3" : {
+      "email" : "ruwinsa34@hotmail.com",
+      "password" : "name3@",
+      "username" : "erandi@14"
+    },
+    "user4" : {
+      "email" : "manashich45@gmail.com",
+      "password" : "name4@",
+      "username" : "manashi82"
+    }
+  },
+  "posts" : {
+    "post1" : {
+      "datetime" : "2019/5/3 0:51:45",
+      "edited" : "true",
+      "postid" : "1",
+      "pstDescription" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 1 ",
+      "username" : "anash142"
+    },
+    "post2" : {
+      "datetime" : "2019/5/3 0:54:3",
+      "edited" : "true",
+      "postid" : "2",
+      "pstDescription" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. jkljkljlkjklkljkl",
+      "username" : "anash142"
+    },
+    "post3" : {
+      "datetime" : "2019/03/27 11:45:08",
+      "edited" : "false",
+      "postid" : "3",
+      "pstDescription" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "username" : "erandi@14"
+    },
+    "post4" : {
+      "datetime" : "2019/5/3 0:34:54",
+      "edited" : "false",
+      "postid" : 4,
+      "pstDescription" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "username" : "anash142"
+    }
+  },
+  "users" : {
+    "user2" : {
+      "dob" : "2019/01/14",
+      "email" : "anash142@yahoo.com",
+      "employer" : "AEH Distributors",
+      "employment" : "Chairman",
+      "married" : "single",
+      "name" : "Anash Moshan",
+      "qualification" : "B.Sc. Physical Science",
+      "university" : "University of Moratuwa",
+      "userURL" : "anash142",
+      "username" : "anash142"
+    },
+    "user3" : {
+      "dob" : "1990/02/21",
+      "employer" : "Self Employed",
+      "employment" : "Singer",
+      "name" : "Ruwinsa Erandi",
+      "qualification" : "G.C.E. Advanced Level",
+      "university" : "Co/ High School",
+      "userURL" : "erandi@14",
+      "username" : "erandi@14"
+    },
+    "user4" : {
+      "dob" : "1991/01/29",
+      "employer" : "Self Employed",
+      "employment" : "Musician",
+      "name" : "Manashi Chaudhri",
+      "qualification" : "B.A. Humanities",
+      "university" : "University of Guwahati",
+      "userURL" : "manashi82",
+      "username" : "manashi82"
+    }
+  }
+}
