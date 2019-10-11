@@ -4,7 +4,8 @@
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
 [![React](https://img.shields.io/badge/react-16.8%2B-blue.svg)](https://img.shields.io/badge/react-16.8%2B-blue.svg)
 [![GitHub Issues](https://img.shields.io/github/issues/aditya1962/PostOShare.svg)](https://github.com/aditya1962/PostOShare/issues)
-[![GitHub MIT](https://img.shields.io/github/license/aditya1962/PostOShare.svg)](https://github.com/aditya1962/PostOShare/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/aditya1962/PostOShare)](https://github.com/aditya1962/PostOShare/blob/master/LICENSE)
+
 
 <b> NEW: v1.1.0 (current) now uses hashing to ensure password confidentiality</b>
 
