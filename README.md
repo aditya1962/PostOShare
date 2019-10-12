@@ -39,7 +39,7 @@ The lastest version of PostOShare can be installed by npm.
 
 <h3 id="db"> Database </h3>
 
-PostOShare uses Firebase realtime database. Database is hosted at <a href="https://social-media-post.firebaseio.com">https://social-media-post.firebaseio.com</a>. Configuration details is implemented in <a href="https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js">https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js</a>.
+PostOShare uses Firebase realtime database. Database is hosted at <a href="https://social-media-post.firebaseio.com">https://social-media-post.firebaseio.com</a>. Configuration details are implemented in <a href="https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js">https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js</a>.
 
 ```javascript
 ...
