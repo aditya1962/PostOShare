@@ -7,8 +7,6 @@
 [![GitHub license](https://img.shields.io/github/license/aditya1962/PostOShare)](https://github.com/aditya1962/PostOShare/blob/master/LICENSE)
 
 
-<b> NEW: v1.1.0 (current) now uses hashing to ensure password confidentiality</b>
-
 ## Basic Overview
 
 <a href="https://github.com/aditya1962/PostOShare/">PostOShare </a>is a social media sharing app where registered users can post posts and comments. The app uses <a href="https://reactjs.org/">React </a>as the UI render and <a href="https://firebase.google.com">Firebase </a> as the database model.
