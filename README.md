@@ -9,7 +9,7 @@
 
 ## Basic Overview
 
-PostOShare is a social media sharing app where registered users can post posts and comments. The app uses <a href="https://reactjs.org/">React </a>as the UI render and <a href="https://firebase.google.com">Firebase </a> as the database model.
+PostOShare is a social media sharing app where registered users can post posts and comments. The app uses <a href="https://reactjs.org/">React</a> as the UI render and <a href="https://firebase.google.com">Firebase</a> as the database model.
 
 ## Table of Contents
 * <a href="#installation">Installation</a>
@@ -18,7 +18,7 @@ PostOShare is a social media sharing app where registered users can post posts a
 * <a href="#contributions"> Contributing to PostOShare </a>
 * <a href="#license"> License </a>
 
-<h3 id="installation">Installation </h3>
+<h3 id="installation">Installation</h3>
 
 The lastest version of PostOShare can be installed by npm.
 
@@ -32,7 +32,7 @@ The lastest version of PostOShare can be installed by npm.
     npm start
 ```
 
-<h3 id="db"> Database </h3>
+<h3 id="db">Database</h3>
 
 PostOShare uses Firebase realtime database. Database is hosted at <a href="https://social-media-post.firebaseio.com">https://social-media-post.firebaseio.com</a>. Configuration details are implemented in <a href="https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js">https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js</a>.
 
@@ -47,7 +47,6 @@ var config = {
     messagingSenderId: "136183787820"
   };
 ...
-
 ```
 
 The initial database is exported and hosted as database-export.json <a href="https://github.com/aditya1962/PostOShare/blob/master/database-export.json">in the root directory</a>.
@@ -56,7 +55,7 @@ The initial database is exported and hosted as database-export.json <a href="htt
 
 PostOShare requires users to be logged in to continue. Therefore, a user should first register at the <a href="/Register">Register</a> page. 
 
-Once registered a user can either <a href="/Login">login </a> or <a href="/ConfirmPassword">change the password</a>. 
+Once registered a user can either <a href="/Login">login</a> or <a href="/ConfirmPassword">change the password</a>. 
 
 <p align="center"><img src="https://github.com/aditya1962/PostOShare/blob/master/public/images/readme/Login.gif" alt="Login" style="margin:0% 15%;"/></p><p align="center"> Fig 1: Login </p>
 
@@ -64,7 +63,7 @@ Once registered a user can either <a href="/Login">login </a> or <a href="/Confi
 
 Since PostOShare currently does not use a server environment for server side processing, a confirmation mail is not currently sent to the user. Also, the username of a username CANNOT be changed once registered. 
 
-An authorized user will be redirected to the <a href="/">Home </a> component. Here the user has the ability to post posts and comments.
+An authorized user will be redirected to the <a href="/">Home</a> component. Here the user has the ability to post posts and comments.
 
 <p align="center"><img src="https://github.com/aditya1962/PostOShare/blob/master/public/images/readme/Add%20Post.gif" alt="Add Post" style="margin:0% 15%;"/></p><p align="center"> Fig 3: Add Post </p>
 
@@ -74,19 +73,19 @@ An authorized user also has the ability to edit posts and/or comments posted by 
 
 The left side panel displays details of the user. These will be set only after the user has edited their profile.
 
-To edit a profile, hover over the profile icon at the top row and click <a href="/editprofile">Edit Profile </a>. 
+To edit a profile, hover over the profile icon at the top row and click <a href="/editprofile">Edit Profile</a>. 
 
 <p align="center"><img src="https://github.com/aditya1962/PostOShare/blob/master/public/images/readme/Edit.PNG" alt="Edit" style="margin:0% 15%;"/></p><p align="center"> Fig 5: Edit Profile </p>
 
 The Edit Profile component is divided into two sections: login related data and user related data. Once all the data are filled the user can edit the profile. Currently, PostOShare does not allow uploading a profile picture. Therefore, the profile picture will be set to default.
 
-A user can log out of the application by hovering over the profile icon at the top row and clicking <a href="/logout"> Logout </a>
+A user can log out of the application by hovering over the profile icon at the top row and clicking <a href="/logout">Logout</a>
 
-<h3 id="contributions"> Contributing to PostOShare </h3>
+<h3 id="contributions">Contributing to PostOShare</h3>
 
-Contributing guidelines to PostOShare can be found in <a href="https://github.com/aditya1962/PostOShare/blob/contributing/contribution.md"> contributing to PostOShare </a>
+Contributing guidelines to PostOShare can be found in <a href="https://github.com/aditya1962/PostOShare/blob/contributing/contribution.md">contributing to PostOShare</a>
 
-<h3 id="license"> License </h3>
+<h3 id="license">License</h3>
 
-PostOShare uses <a href="https://github.com/aditya1962/PostOShare/blob/master/LICENSE"> MIT </a>License. 
+PostOShare uses <a href="https://github.com/aditya1962/PostOShare/blob/master/LICENSE">MIT</a> License. 
 
