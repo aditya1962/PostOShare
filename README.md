@@ -11,13 +11,6 @@
 
 PostOShare is a social media sharing app where registered users can post posts and comments. The app uses <a href="https://reactjs.org/">React</a> as the UI render and <a href="https://firebase.google.com">Firebase</a> as the database model.
 
-## Table of Contents
-* <a href="#installation">Installation</a>
-* <a href="#db"> Database </a>
-* <a href="#basic-usage">Basic Usage</a>
-* <a href="#contributions"> Contributing to PostOShare </a>
-* <a href="#license"> License </a>
-
 <h3 id="installation">Installation</h3>
 
 The lastest version of PostOShare can be installed by npm.
