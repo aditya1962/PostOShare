@@ -1,15 +1,18 @@
 <p align="center"><img src="https://raw.githubusercontent.com/aditya1962/PostOShare/master/public/images/icons/logo.png" alt="logo">
 </p>
 
+<div align="center">
+    
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
 [![React](https://img.shields.io/badge/react-16.8%2B-blue.svg)](https://img.shields.io/badge/react-16.8%2B-blue.svg)
 [![GitHub Issues](https://img.shields.io/github/issues/aditya1962/PostOShare.svg)](https://github.com/aditya1962/PostOShare/issues)
 [![GitHub license](https://img.shields.io/github/license/aditya1962/PostOShare)](https://github.com/aditya1962/PostOShare/blob/master/LICENSE)
 
+</div>
 
 ## Basic Overview
 
-PostOShare is a social media sharing app where registered users can post posts and comments. The app uses <a href="https://reactjs.org/">React</a> as the UI render and <a href="https://firebase.google.com">Firebase</a> as the database model.
+PostOShare is a social media app where registered users can post posts and comments. The app uses <a href="https://reactjs.org/">React</a> as the UI render and <a href="https://firebase.google.com">Firebase</a> as the database.
 
 <h3 id="installation">Installation</h3>
 
@@ -27,7 +30,7 @@ The lastest version of PostOShare can be installed by npm.
 
 <h3 id="db">Database</h3>
 
-PostOShare uses Firebase realtime database. Database is hosted at <a href="https://social-media-post.firebaseio.com">https://social-media-post.firebaseio.com</a>. Configuration details are implemented in <a href="https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js">https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js</a>.
+PostOShare uses Firebase realtime database. Database is hosted at <a href="https://social-media-post.firebaseio.com">https://social-media-post.firebaseio.com</a>. Configuration details are implemented in <a href="https://github.com/aditya1962/PostOShare/blob/master/src/firebase.js">firebase.js</a>.
 
 ```javascript
 ...
@@ -80,5 +83,5 @@ Contributing guidelines to PostOShare can be found in <a href="https://github.co
 
 <h3 id="license">License</h3>
 
-PostOShare uses <a href="https://github.com/aditya1962/PostOShare/blob/master/LICENSE">MIT</a> License. 
+PostOShare uses <a href="https://github.com/aditya1962/PostOShare/blob/master/LICENSE">MIT</a> license. 
 
