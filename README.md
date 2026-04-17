@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/aditya1962/PostOShare/master/public/images/icons/logo.png" alt="logo">
 </p>
 
-> [!NOTE]
+> [!WARNING]
 > As a part of the <a href="https://github.com/PostOShare">PostOShare Organization</a>, this repository has been moved to <a href="https://github.com/PostOShare/PostOShareUI">PostOShareUI</a>.
 
 <div align="center">
