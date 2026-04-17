@@ -1,6 +1,9 @@
 <p align="center"><img src="https://raw.githubusercontent.com/aditya1962/PostOShare/master/public/images/icons/logo.png" alt="logo">
 </p>
 
+> [!NOTE]
+> As a part of the ![PostOShare Organization](https://github.com/PostOShare), this repository has been moved to ![PostOShareUI](https://github.com/PostOShare/PostOShareUI).
+
 <div align="center">
     
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
