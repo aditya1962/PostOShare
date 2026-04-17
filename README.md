@@ -2,7 +2,7 @@
 </p>
 
 > [!NOTE]
-> As a part of the ![PostOShare Organization](https://github.com/PostOShare), this repository has been moved to ![PostOShareUI](https://github.com/PostOShare/PostOShareUI).
+> As a part of the <a href="https://github.com/PostOShare">PostOShare Organization</a>, this repository has been moved to <a href="https://github.com/PostOShare/PostOShareUI">PostOShareUI</a>.
 
 <div align="center">
     
