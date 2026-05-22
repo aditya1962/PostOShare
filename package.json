@@ -7,7 +7,7 @@
     "firebase": "^5.9.3",
     "fs": "0.0.1-security",
     "gh-pages": "^2.0.1",
-    "js-cookie": "^2.2.0",
+    "js-cookie": "^3.0.7",
     "pbkdf2": "^3.0.17",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
