@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "aes-js": "^3.1.2",
-    "firebase": "^5.9.3",
+    "firebase": "^12.15.0",
     "fs": "0.0.1-security",
     "gh-pages": "^2.0.1",
     "js-cookie": "^2.2.0",
@@ -13,7 +13,7 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
+    "react-scripts": "5.0.1",
     "sha.js": "^2.4.11",
     "sha256": "^0.2.0"
   },
